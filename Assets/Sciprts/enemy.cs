@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class enemy : MonoBehaviour {
 	float time = 0, span = 0.5f;
-	GameObject bullet;
-	// Use this for initialization
+	GameObject bullet, bulletParent;
 	void Start () {
+		//Prefabの読み込む
 		bullet = Resources.Load <GameObject> ("bullet");
+		//親
+		bulletParent = GameObject.Find("bullets");
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		time += 1f * Time.deltaTime;
 		if (time >= span) {
-			Instantiate (bullet);
+			//Instantiate (bullet, transform.position, Quaternion.identity, bulletParent.transform); //生成
+			GameObject obj = Instantiate(bullet);
+			obj.transform.position = transform.position;
+			obj.transform.SetParent (bulletParent.transform);
 			time = 0;
 		}
 	}
