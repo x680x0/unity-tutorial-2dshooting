@@ -1,0 +1,22 @@
+@startuml
+
+
+skinparam activity{
+    ArrowColor #535353
+    BorderColor #000000
+    BackgroundColor #eff5ff
+}
+
+title 自機移動の1フレームごとの流れ\n
+
+:現在位置の取得;
+
+    if (キーが押されている) then (はい)
+        :位置の変更;
+    else (いいえ)
+    endif
+
+:変更した位置の適用;
+
+
+@enduml
