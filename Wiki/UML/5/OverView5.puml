@@ -1,0 +1,35 @@
+@startuml
+scale 600 width
+
+skinparam sequence {
+	ArrowColor #535353
+	LifeLineBorderColor Black
+	LifeLineBackgroundColor #eff5ff
+
+	ParticipantBorderColor Black
+	ParticipantBackgroundColor #eff5ff
+
+}
+skinparam note{
+    BorderColor #ff7070
+    BackgroundColor #fff9f9
+}
+
+participant プレイヤー
+participant 弾
+activate プレイヤー
+activate 弾
+
+title 当たり判定の流れ\n
+
+note over 弾, プレイヤー
+	あたり判定の設定
+end note
+
+プレイヤー <- 弾 : 当たり判定の検出
+
+note over プレイヤー
+	プレイヤーの消去
+end note
+
+@enduml

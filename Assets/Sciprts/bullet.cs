@@ -5,6 +5,7 @@ using UnityEngine;
 public class bullet : MonoBehaviour {
 	float posX, posY;
 
+
 	void Update () {
 		posX = transform.position.x;
 		posY = transform.position.y;

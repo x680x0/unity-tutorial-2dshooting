@@ -17,7 +17,7 @@ public class enemy : MonoBehaviour {
 
 	void Update () {
 		time += 1f * Time.deltaTime;
-		if (time >= 1f) {
+		if (time >= 0.1f) {
 			targetPosY = target.transform.position.y;
 			GameObject clone = Instantiate (bullet);
 			clone.transform.position = new Vector2 (4f, targetPosY);

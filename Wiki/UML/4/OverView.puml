@@ -1,4 +1,5 @@
 @startuml
+scale 600 width
 
 skinparam sequence {
 	ArrowColor #535353
