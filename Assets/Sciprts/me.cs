@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class i : MonoBehaviour {
+public class me : MonoBehaviour {
 
 	Vector2 position; //二次元ベクトル型
 

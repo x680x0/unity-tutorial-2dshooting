@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class enemy : MonoBehaviour {
-	float time = 0, span = 0.5f;
-	GameObject bullet, bulletParent;
+	GameObject bullet;
+	GameObject target;
+	float targetPosY;
+	float time = 0;
+
 	void Start () {
 		//Prefabの読み込む
 		bullet = Resources.Load <GameObject> ("bullet");
-		//親
-		bulletParent = GameObject.Find("bullets");
+		//自機の取得
+		target = GameObject.Find("me");
 	}
 
 	void Update () {
 		time += 1f * Time.deltaTime;
-		if (time >= span) {
-			//Instantiate (bullet, transform.position, Quaternion.identity, bulletParent.transform); //生成
-			GameObject obj = Instantiate(bullet);
-			obj.transform.position = transform.position;
-			obj.transform.SetParent (bulletParent.transform);
+		if (time >= 1f) {
+			targetPosY = target.transform.position.y;
+			GameObject clone = Instantiate (bullet);
+			clone.transform.position = new Vector2 (4f, targetPosY);
 			time = 0;
 		}
 	}

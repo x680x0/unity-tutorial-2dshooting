@@ -14,29 +14,29 @@ skinparam note{
     BackgroundColor #fff9f9
 }
 
-participant Enemy
-participant Bullet
-participant Me
-activate Enemy
-activate Me
+participant 敵
+participant 弾
+participant プレイヤー
+activate 敵
+activate プレイヤー
 
 title 弾の生成の流れ\n
 
-note over of Bullet
+note over of 弾
 	事前に素材として
     用意しておく
 end note
 
-group Enemy Start()
-    Enemy <- Bullet : 弾を読み込む
+group 敵 Start()
+    敵 <- 弾 : 弾を読み込む
 end
-group Enemy Update()
-    Enemy <- Me : 自機の現在位置を取得する
-    Enemy -> Bullet : 自機の現在位置をもとに生成する
+group 敵 Update()
+    敵 <- プレイヤー : プレイヤーの現在位置を取得する
+    敵 -> 弾 : プレイヤーの現在位置をもとに生成する
 
-    activate Bullet
-    group Bullet Update()
-        Bullet -> Bullet : 横に進む
+    activate 弾
+    group 弾 Update()
+        弾 -> 弾 : 横に進む
     end
 end
 
