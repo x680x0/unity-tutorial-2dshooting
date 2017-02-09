@@ -1,5 +1,5 @@
 @startuml
-
+scale 600 width
 
 skinparam activity{
     ArrowColor #535353

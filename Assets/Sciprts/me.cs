@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class i : MonoBehaviour {
-
-	Vector2 position; //二次元ベクトル型
-
+public class me : MonoBehaviour {
+	float posX, posY;
 	void Update () {
-		position = transform.position;
+		//自身の座標を取り出す
+		posX = transform.position.x;
+		posY = transform.position.y;
+		//キー入力
 		if (Input.GetKey (KeyCode.UpArrow))
-			position.y += 2f * Time.deltaTime;
+			posY += 0.1f;
 		if (Input.GetKey (KeyCode.DownArrow))
-			position.y -= 2f * Time.deltaTime;
+			posY -= 0.1f;
 		if (Input.GetKey (KeyCode.RightArrow))
-			position.x += 2f * Time.deltaTime;
+			posX += 0.1f;
 		if (Input.GetKey (KeyCode.LeftArrow))
-			position.x -= 2f * Time.deltaTime;
-		transform.position = position;
+			posX -= 0.1f;
+		transform.position = new Vector2 (posX, posY);
 	}
 
 	void OnTriggerEnter2D (Collider2D c){
-		if (c.gameObject.tag == "Enemy")
-			print ("Hit!");
+		if (c.gameObject.tag == "Enemy") {
+			Destroy (this.gameObject);
+		}
 	}
 }
