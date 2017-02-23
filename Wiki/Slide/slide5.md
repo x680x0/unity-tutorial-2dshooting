@@ -1,4 +1,3 @@
-
 <!-- $theme: gaia -->
 <style>
 .center{
@@ -9,333 +8,322 @@
 <!-- template: gaia -->
 
 # Unity講座
-## 2.Unityの使い方
+## 5.当たり判定
 
 ----
 <!-- page_number: true -->
+<!-- template: default -->
+# 目的
+
+:arrow_right_hook:**==前回==**
+- プレイヤーの移動
+- 敵が弾を撃つ
+
+
+:arrow_right:**==今回==**
+弾がプレイヤーにあたったら死ぬ(消える)
+
+----
+
+##### プログラムの流れ
+<div class="center">
+<img style="width:65%" src="../../Images/5/OverView5.png">
+</div>
+
+----
 <!-- template: invert -->
-
 # 1
-# UnityEditor
+# 当たり判定の準備
+----
+
+### 物理演算
+
+一般に当たり判定は物理演算の1つ
+
+**==<例>==**
+ボールを投げて地面に==当たったら==跳ね返る
+
+
+:arrow_right:当たり判定は物理演算に無くてはならない存在
 
 ----
 
-## Toolbar
+### Unityで物理演算
 
-画面上部にあるボタン群
-中央にあるボタンでゲームの実行や一時停止が出来る
+Unityで物理演算をさせたい
+　　　　　:arrow_down:
+物理演算させたいオブジェクト + `Rigidbody`
 
-:collision:==注意==
-実行中に行った変更はすべてもとに戻される
-:arrow_right:必ず実行中でないか確かめよう
+
+----
+### Unityで物理演算
+
+今回、当たり判定を行いたいのは
+
+- プレイヤー
+- 弾
+
+なので、この2つにくっつける
+
+---
+### Unityで物理演算
+
+
+1. HierarchyまたはProjectからオブジェクトを選択
+2. Component > Physics2D > Rigdbody2D
+  
+<div class="center">
+<img style="width:80%" src="../../Images/5/AddRigidbody.png">
+</div>
+
+
+これをプレイヤーと弾の両方において行う
 
 ----
 
-## Projectウィンドウ
+#### :collision:Prefabをいじるときの注意
 
-`File > Save Scenes`をして現在の状態を保存 
+PrefabをHierarchyに残していませんか？
 
-:arrow_right:画面下部に設定した名前のUnityアイコンが出現
-![](../Images/2/unity5.png)
+Hierarchy上のPrefabを変更
+:arrow_right:設定が変わるのは今Hierarchyにある1つのみ
 
-----
-
-## Projectウィンドウ
-
-- ゲームで使用するドット絵やBGM、プログラムファイルなどの素材を管理する場所
-- `Assets`フォルダが親フォルダ
-- エクスプローラーのようにフォルダ分けして管理することが出来ます。
+- あくまでHierarchyにあるのはPrefabの実体  
+- 素材としてのPrefabに変更は適用されない
+  
+HierarchyにあるPrefabの実体は必ず消して、
+Projectウィンドウから変更しよう
 
 ----
 
-## Projectウィンドウ
-#### :collision:注意
+### Rigidbodyの設定
 
-ここにあるのは **==「ゲームの素材候補」==** 
+続いて、どのような物理挙動をさせるか設定する
 
-ゲームで使うものは必ずここに置く必要があるが、
-ここにあるからといって必ずしもゲームに登場させる必要はない
 
-つまり、ここにあるだけでは
-**==Unityはゲームに登場するものとして認識しない==**  
+:scream:この状態で実行してみよう
+
+プレイヤーも弾もプログラムから動かしている
+:arrow_right:自然落下などの物理演算をさせてはいけない
+
+
+----
+### Rigidbodyの設定
+
+Rigidbodyコンポーネントを設定しよう
+
+1. BodyType : Dynamic -> Kinematic
+2. Use Full Kinematic Contacts : :white_check_mark:
+
+<div class="center">
+<img style="width:80%" src="../../Images/5/SetRigidbody.png">
+</div>
+
+これもプレイヤーと弾の両方に行います。
+
+----
+#### 判定範囲の設定
+
+どの範囲から当たり判定を行うか指定する
+　:arrow_right:`Collider`コンポーネントを付与
+
+1. プレイヤーをHierarchy選び、 `Component > Physics2D > Circle Collider 2D`  
+2. 弾をProjectから選び、`Component > Physics2D > Box Collider 2D`  
+
+<div class="center">
+<img style="width:70%" src="../../Images/5/AddBoxCollider.png">
+</div>
 
 ----
 
-## Projectウィンドウ
+#### 判定範囲の設定
 
-画像を使うためにProjectウィンドウに入れる
+当たり判定
+:arrow_right:「プレイヤーと弾が重なっているか」を知るため
 
-1. 画像を右クリックして保存
-2. D&DでProjectウィンドウのAssetsフォルダへ
- 
-![](..//Images/2/unity6.png) 
-これでゲーム内で画像を使う準備は出来た
+==実際に衝突させるわけではない==
 
-----
-
-## Projectウィンドウ
-
-#### :heavy_check_mark:TIPS - ファイル名の変更
-
-任意のファイルに対しシングルクリックを2回(ダブルクリックではない)でファイル名の変更が出来る
-
-選択した上でF2キーを押すことでも出来る
-
-----
-
-## Sceneビュー
-
-- 画像などを実際に確認しながら配置できる
-- ツールバーでマウスポインタを選ぶ
-	- 視点移動
-	- オブジェクトの移動
-	- オブジェクトの回転
-	- オブジェクトのサイズ変更
-	- オブジェクトに対する操作全般
-
-----
-
-## Hierarchyウィンドウ
-
-- ゲーム上に存在するオブジェクトの一覧が表示
-- HierarchyにD&Dすることでも表示出来る
-- Hierarchyでは任意のオブジェクトをダブルクリックでフォーカス
-- Main Camera:
-	- Sceneビュー内のゲーム画面に出力する場所  
-	- カメラに映ったものがゲーム画面として出力される
-- オブジェクトの右クリックで名前変更や複製
-
-----
-
-## Inspectorウィンドウ
-
-- Hierarchyで選択したオブジェクトの詳細を見たり設定を行う  
-
-さっきProjectウィンドウに取り込んだ画像の設定
-- FilterMode : `Point (no filter)`
-
-実際に位置や回転、大きさを変えてみよう
-
-----
-
-## 「オブジェクト」の概念
-
-- Hierarchy上にあるのは`GameObject`と呼ばれるもの
-- `GameObject`はUnityにおいてゲームに存在するための枠組みであり、基礎となるもの
-- 様々な機能を持った==コンポーネント==と呼ばれるものがくっつくことで初めて==役割を持ったもの==として動作する
-
-例えば、先程取り込んだ画像は
-- `Transform`
-- `SpriteRenderer`
-
-----
-
-## 「オブジェクト」の概念
-
-
-- `Transform`コンポーネントは例外なくすべてのGameObjectに付与されており外せない
-- コンポーネントはオン/オフで機能を止められる
-	- ==<例>== SpriteRendererをオフにしてみよう
-- 右端のメニューからコンポーネントの削除や並び替えが出来る
-- Inspectorの一部項目はスライダーになっている 
-	- ==<例>== 大雑把にいじってみよう
-
-----
-
-## Consoleウィンドウ
-
-実行時のエラーなどが表示され、バグ探しに使う
-
-:warning:必ず見える位置に移動しておこう
+2つの判定エリアが重なっているかどうかのみ検出
+:arrow_right:両方のコライダの`IsTrigger`項目にチェック
 
 ----
 
 # 2
-# Unityでプログラムを書く
+# 当たり判定の検出
+
 
 ----
+### 当たり判定の検出
 
-## Unityでプログラムを書く
-
-ここまで
-:arrow_right:画像の配置やその大きさや回転の調整を行える
-
-しかしゲームではない
-:arrow_right:Game Objectに **==プログラムをコンポーネントとしてくっつける==** ことで、様々な動作を行える
-
-----
-
-## Unityでプログラムを書く
-
-まずはプログラムを書くためのファイルを作る
-
-1. Projectウィンドウで右クリック
-2. `Create` > `C# Script`
-3. 名前を設定しスクリプトファイルを作成
-4. 作成したファイルをHierarchyにある画像にD&D
-
-ここで今表示されている画像を自機とするため、
-名前は`me`や`player`が望ましい
-
-----
-
-## Unityでプログラムを書く
-
-#### :collision:==注意==
-
-Projectウィンドウにあるだけでは、
-このスクリプトファイルは==何もしない==
-
-Projectウィンドウにあるのはあくまで素材候補
-:arrow_right:必ずコンポーネントとしてくっつける必要がある
-
-----
-
-## Unityでプログラムを書く
-
-プログラムを編集する
-:arrow_right:C#ファイルをProjectからダブルクリック
-　:arrow_right:プログラムを書くことで様々な動作をさせる
-
-さて、プログラムの中身を見てみましょう。
-
-----
-## Unityでプログラムを書く
+検出方法には以下の3通り
 
 ```CSharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+<1> 2つのコライダが重なった瞬間の検出
+void OnTriggerEnter2D(Collider2D c){}
 
-public class me : MonoBehaviour {
+<2> 2つのコライダが重なっている間ずっと検出
+void OnTriggerStay2D(Collider2D c){}
 
-	// Use this for initialization
-	void Start () {
-	}
+<3> 2つのコライダが重なり終わった瞬間の検出
+void OnTriggerExit2D(Collider2D c){}
+```
 
-	// Update is called once per frame
-	void Update () {
-	}
+今回の場合は==1と2のどちらでもOK==
+
+以下の例では2を使います。
+
+----
+### 当たり判定の検出
+
+検出は以下のように書く
+
+```CSharp
+void OnTriggerStay2D(Collider2D c){
+	<2つのコライダが重なっている間実行される処理>
 }
 ```
 
-プログラムというものは普通の文章と同じように、
-左上から1行ずつ、順番に読み取られていく
-
 ----
+### 当たり判定の検出
 
-### Start関数
+ちなみに、IsTriggerが無効だった場合はいかの3通り
+
+チェックを入れなかった場合==検出方法が変わる==
 
 ```CSharp
-	// Use this for initialization
-	void Start () {
-
-	}
+void OnCollisionEnter2D(Collision2D c){}
+void OnCollisionStay2D(Collision2D c){}
+void OnCollisionExit2D(Collision2D c){}
 ```
-これは`Start`関数
-
-`{}`の中に書かれたプログラムを、
-ゲームの起動時に一度だけ実行する
 
 ----
-### Start関数の動き
 
-Start関数を下のように書き足す
+###  自機の消滅
+コンポーネント・オブジェクトの削除
+:arrow_right:`Destroy()`関数
 
 ```CSharp
-    // Use this for initialization
-    void Start () {
-        print("start");
-    }
+	Destroy(this);
 ```
+さて、上記の例において、`this`とは:grey_question:  
 
-1. `Ctrl+S`でファイルの保存
-2. Unityの画面に戻る  
-2. Toolbarの再生ボタンを押す
-3. Consoleウィンドウに`start`と表示される
+:arrow_right:`this`とは、プログラムコンポーネント自身
+
+もしこれを書いても、
+削除されるのはプログラムコンポーネントのみ
 
 ----
+###  自機の消滅
 
-### print("start");
+GameObjectごと削除する場合、以下のように書く
 
 ```CSharp
-	print("start");
+	<自身がくっついているGameObjectを削除する>
+	Destroy(this.gameObject);
 ```
 
-これは`()`の中に書いたものを、
-Consoleウィンドウに出力するための==関数==というもの
-
-- プログラムで文字を扱う場合、必ず`""`で囲う
-- `;`はひとつの動作が終了した、という合図  
-- プログラムの一動作ごとにその末尾に`;`を付ける
-
-----
-### Start関数
-
-Consoleウィンドウに正しく`start`の文字が表示
-
-:white_check_mark:`print("start")`は正しく実行された
-:white_check_mark:一度だけ実行された
-
-確認ができたので実行を終了させ、
-Consoleの左上、`Clear`をクリックしてConsoleウィンドウの中身を消す
-
-
 ----
 
-### Update関数
+### 実装
+それでは、弾がプレイヤーに当たったら消えるプログラムを書いてみましょう。  
+プレイヤーのプログラムに以下を追記しましょう。
 
 ```CSharp
-	// Update is called once per frame
-	void Update () {
-
-	}
+void OnTriggerEnter2D (Collider2D c){
+    Destroy (this.gameObject);
+}
 ```
 
-これは`Update`関数
-
-`{}`の中に書かれたプログラムを、
-==1フレームに1回==実行する関数
+この状態で実行してみましょう。  
+弾に当たったらプレイヤーが消滅するのが分かると思います。
 
 ----
-### Update関数の動き
 
-では、次のように書き足してみましょう。
+### 当たった先の識別
+
+これで一見今日の目標は達成:satisfied:
+
+:thumbsdown:**==問題点==**
+この状態だとプレイヤーは==何に当たっても死ぬ==
+
+
+:thumbsup:**==解決策==**
+プレイヤーが当たった相手は何なのか判定
+　:arrow_right:敵だったら死ぬ
+
+----
+
+### Tagの設定
+
+GameObjectに識別は2通り
+:arrow_right:GameObjectの名前をみる
+:arrow_right:GameObjectのタグをみる
+
+
+
+名前で識別
+:arrow_right:今後弾以外の敵を追加したとき、
+　いちいち条件を書き加える必要がある
+
+GameObjectに「タグ」を付けることで、
+一括で識別できるようにする
+
+----
+### Tagの設定
+
+1. Projectウィンドウから弾のプレハブを選択
+2. Inspector上部のTagから`Add Tag`を選択
+3. 画面右の`+`ボタンを押し`Enemy`タグを追加
+4. 再度Projectウィンドウから弾のプレハブを選択
+5. Inspectorから`Enemy`タグを設定
+
+これでタグ付けが出来た
+以降生成される弾はすべて、
+==`Enemy`のタグがついているか==どうかで識別可能
+
+----
+
+### 実装
+
+当たり判定の検出の際、相手が本当に敵であるか確認
+:arrow_right:`OnTriggerStay2D()`関数を以下のように編集
 
 ```CSharp
-	// Update is called once per frame
-	void Update () {
-            print("update");
-	}
+void OnTriggerEnter2D (Collider2D c){
+	if (c.gameObject.tag == "Enemy")
+		Destroy (this.gameObject);
+}
 ```
 
-1. 先程同様保存しUnityで実行する
-2. Consoleウィンドウに`update`の文字が次々に現れる
+タグ情報は`GameObject`にくっていている情報なので、
+```
+衝突相手のコライダ > そのGameObject > そこにくっついてるタグ 
+```
 
-
-:arrow_right:毎フレーム`print("update");`を実行しているから
+と参照する
 
 ----
-### Update関数の動き
+### Tagの設定
 
-もう一度再生ボタンを押し再生を止める
 
-Consoleの一番上の文字が`start`になっている
+これで敵にぶつかったときのみプレイヤーが死ぬ
 
-:arrow_right:`Start()`内の記述は`Update()`内の記述よりも
-==先に一度だけ==実行されることがわかる
-
-これは次回以降重要になる部分なので覚えておこう
+今後は敵の種類を追加する際も、
+敵に`Enemy`タグを追加するだけでOK
 
 ----
 <!-- template: default -->
 # まとめ
 
-- GameObjectはゲームに存在するための枠組み
-- コンポーネントによって役割を持つ
-- プログラムもコンポーネントとしてくっつける
-- Start関数は起動時1度だけ実行
-- Update関数は毎フレーム実行
+- 当たり判定
+:arrow_right:RigidbodyとColliderをくっつける
+:arrow_right:Dynamic(動的)/Kinematic(静的)を見極める
+:arrow_right:IsTriggerのオン/オフを見極める
+:arrow_right:IsTirggerによって書くプログラムが変わる
+
+- GameObjectの識別
+:arrow_right:Tagを付けることで識別しやすくなる
+
 
 ----
 <!-- template: gaia -->
@@ -343,3 +331,4 @@ Consoleの一番上の文字が`start`になっている
 
 # やってみよう！
 ###### 分からないことがあったら周囲の先輩に聞いてみよう
+
