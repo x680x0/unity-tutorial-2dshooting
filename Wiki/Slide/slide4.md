@@ -3,8 +3,8 @@
 .center{
  text-align: center;
 }
-.center img { 
-	width: 65%; 
+.center img {
+	width: 65%;
 }
 
 </style>
@@ -12,7 +12,7 @@
 <!-- template: gaia -->
 
 # Unity講座
-## 4.敵をつくる
+## 4. 敵をつくる
 
 ----
 <!-- page_number: true -->
@@ -20,7 +20,7 @@
 # 目的
 
 :arrow_right_hook:**==前回==**
-画像を矢印キーで移動させる
+画像(自機)を矢印キーで移動させる
 
 
 :arrow_right:**==今回==**
@@ -28,73 +28,69 @@
 
 ----
 
-##### プログラムの流れ
+## 仕様
+- 敵は動かない。
+- 敵が弾を作る。
+- 弾は自機と同じy座標に生成される。
+- 弾は左側(x軸のマイナス方向)に等速で飛んでいく。
+
+----
+
+##### 実行時のプログラムの流れ
 <div class="center">
-<img src="OverView.png">
+<img src="../Images/4/OverView.png">
 </div>
 
 ----
-## もくじ
-1. 敵を用意する
-2. 弾の挙動を書く
-3. 弾を読み込む
-4. 自機の現在位置を取得する
-5. 弾の生成
+
+## 実装の流れ(目次)
+
+1. `弾のひな形`の用意
+1. `弾の挙動(スクリプト)`を書く
+1. `敵`の用意
+1. `敵の挙動(スクリプト)`を書く
 
 ----
 <!-- template: invert -->
 
-# 1
-# 敵を用意する
+# ==1. 弾のひな形の用意==
+##### 2. 弾の挙動を書く
+##### 3. 敵の用意
+##### 4. 敵の挙動を書く
 
 ----
-## 敵を用意する
+<!-- template: default -->
 
-まずは弾を撃ちだす敵が必要
+## 弾のひな形の用意
 
-1. えっくちゅをもう一体ProjectウィンドウからSceneビューにD&D
-
-1. Hierarchyで右クリックし、`Rename`で名前を分かり易いものに変える
-
-1. `SpriteRenderer`コンポーネントの`Color`プロパティを赤色に弄る
-
-1. `Transform`コンポーネントの`Scale`をいじり、大きくする
-
-1. それっぽくなる
-
-----
-## 敵を用意する
-
-これで敵の準備が出来た
-<div class="center">
-<img src="ReadyImage.png">
-</div>
-
-----
-
-## 弾を準備する
-続いて、敵が撃つ弾を準備する
+敵が撃つ弾を準備する
 
 弾のように、ゲーム中にオブジェクトを作る
 :arrow_right:事前に`Prefab`というひな形を作る
 
 ----
-
-## 弾を準備する
+### 弾の`Prefab`の作り方
 
 1. 弾の画像をInspectorからFilterModeを`Point`に
 1. 画像をProjectからSceneにD&D
-1. Hierarchyで選択:arrow_right:Scaleを弄り適切な大きさに
+1. Hierarchyで選択
+   :arrow_right:Scaleを弄り適切な大きさに
 1. Hirarchyで選択&右クリック
-:arrow_right:`Rename`で名前を分かり易いものに変更
-1. Projectウィンドウで右クリックし
-:arrow_right:`Create > Folder`で`Resources`フォルダを作成
-2. Hierarchyにある弾を`Resources`にD&D
-3. Hierarchyにある弾選択&右クリック:arrow_right:`Delete`
+   :arrow_right:`Rename`で名前を分かり易いものに変更
+1. Projectウィンドウで右クリックし:arrow_right:`Create > Folder`で`Resources`フォルダを作成
+1. Hierarchyにある弾を`Resources`にD&D
+1. Hierarchyにある弾選択&右クリック:arrow_right:`Delete`
 
 ----
-## 弾を準備する
 
+### ==**TIPS**==
+  
+:white_check_mark: `Prefab`を置くフォルダの名前は`Resources`以外にしてはいけません。
+
+詳しくはwikiのトップページの下のほうに...  
+つまりは、仕様ということです...
+
+----
 ### ==**TIPS**==  
 
 :white_check_mark: 何か誤操作してもだいたい`Ctrl+Z`で戻せる
@@ -102,41 +98,53 @@
 :white_check_mark: 名前つけるの間違えたらF2キーで再設定できる
 
 ----
-## 弾を準備する
 これでPrefabの準備が完了
 <div class="center">
-<img src="ReadyPrefab.png">
+<img src="../Images/4/ReadyPrefab.png">
 </div>
 
 ----
 
-## Prefab:grey_question:
+## Prefabとは:grey_question:
 PrefabとGameObjectは違う
 
-Prefab
-:arrow_right:GameObject+設定済みのComponent群 
+**Prefab**
+:arrow_right:GameObject+設定済みのComponent群
 
 この場合
-:arrow_right:弾のPrefabには既に画像が設定されている 
+:arrow_right:弾のPrefabには既に画像が設定されている
 　:arrow_right:このPrefabをゲーム上に生成すれば、
  　　最初から弾の画像が設定されている
 
 ----
 <!-- template: invert -->
 
-# 2
-# 弾の挙動を書く
+##### 1. 弾のひな形の用意
+# ==2. 弾の挙動を書く==
+##### 3. 敵の用意
+##### 4. 敵の挙動を書く
+
 
 ----
+<!-- template: default -->
 ## 弾の挙動を書く
-生成された後はひたすら左に向かって進むような挙動
+
+>横に進む
+
+>弾は左側(x軸のマイナス方向)に等速で飛んでいく。
+
+このように作っていきます。
+
+----
+
+まずはスクリプトファイルの作成
 
 1. Projectウィンドウで右クリック
 2. `Create > C# Script`
 3. 作られたファイルをダブルクリック
 
 ----
-## 弾の挙動を書く
+:arrow_down:弾のスクリプト(解説します)
 
 ```CSharp
 using System.Collections;
@@ -144,181 +152,341 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class bullet : MonoBehaviour {
-	float posX, posY;
-	void Update () {
-        posX = transform.position.x;
-        posY = transform.position.y;
-	posX -= 0.3f;
-	transform.position = new Vector2 (posX, posY);
-	}
+    void Update () {
+        // 弾の位置情報の抜き出し
+        float posX = transform.position.x;
+        float posY = transform.position.y;
+        
+        // 弾の位置の計算
+        posX -= 5f * Time.deltaTime;
+        
+        // 更新
+        transform.position = new Vector2 (posX, posY);
+    }
 }
 ```
-これをProjectウィンドウのPrefabにくっつける
+
+
+----
+### ==**TIPS:**== Time.deltaTimeとは
+
+:arrow_right: １フレームの時間間隔の実測値
+
+<br/>
+
+等速運動のための処理。
+
+----
+## 弾の挙動を書く
+
+出来上がった弾のスクリプトをProjectウィンドウのPrefabにくっつける
+
 :warning:この時点では実行しても特に変化はない
 
 ----
 
 ## :boom:**注意**  
-クラス名とファイル名は常に同一でなければならない
-![](FileNameIsClassName.png)  
 
-- プログラムをGameObjectにくっつけられない 
+クラス名とファイル名は常に同一でなければならない
+![](../Images/4/FileNameIsClassName.png)  
+
+- プログラムをGameObjectにくっつけられない
 - プログラムコンポーネントに:warning:マークが出ている
 
-:arrow_right:これが原因
+![](../Images/4/ClassCantLoad.png)  
+
 
 ----
-# 3
-# 弾を読み込む
-----
-## 弾を読み込む
-弾を撃ちだす
-:arrow_right:「素材候補」のPrefabを読み込む
+<!-- template: invert -->
 
+##### 1. 弾のひな形の用意
+##### 2. 弾の挙動を書く
+# ==3. 敵の用意==
+##### 4. 敵の挙動を書く
+
+----
+<!-- template: default -->
+## 敵の用意
+
+弾を撃ちだす敵が必要。
+
+1. えっくちゅをもう一体ProjectウィンドウからSceneビューにD&D
+1. Hierarchyで右クリックし、`Rename`で名前を分かり易いものに変える
+1. `SpriteRenderer`コンポーネントの`Color`プロパティを赤色に弄る
+1. `Transform`コンポーネントの`Scale`をいじり、大きくする
+1. それっぽくなる
+
+----
+
+これで敵の用意が出来た
+<div class="center">
+<img src="../Images/4/ReadyImage.png">
+</div>
+
+----
+<!-- template: invert -->
+
+##### 1. 弾のひな形の用意
+##### 2. 弾の挙動を書く
+##### 3. 敵の用意
+# ==4. 敵の挙動を書く==
+
+----
+<!-- template: default -->
+
+## 敵の挙動を書く
+==仕様==曰く、
+
+> - 敵は動かない。
+> - 敵が弾を作る。
+> - 弾は自機と同じy座標に生成される。
+
+==実行時のプログラムの流れ==曰く、
+
+> `Start()`内で`事前に用意しておいた弾`を読み込む。
+
+> `Update()`内で自機の位置を取得して、この情報をもとに`読み込んでおいた弾`をゲーム上に生成する。
+
+----
+
+まずは`Start()`内で`弾のPrefab`の読み込み処理。
+
+----
+## 敵の`Start()`を書く
+#### `Prefab`の読み込み
+
+:arrow_down: `Prefab`を(GameObjectとして)読み込む。
+
+```CSharp
+Resources.Load <GameObject>(  リソースフォルダ内ので名前  );
+```
+
+<br/>
+
+:arrow_down: `弾のPrefab`を読み込む。
 
 ```CSharp
 GameObject bullet = Resources.Load <GameObject>("bullet");
 ```
-:warning:この **==bullet==** はProjectのファイル名
-違う名前の場合、書き換える
 
-弾のPrefabを、Hierarchy上に存在できるよう、GameObjectとして読み込む
+これを`Start()`内に書いたらOK...ではない
 
 ----
-# 4
-# 自機の現在位置を取得する
+#### 変数の寿命についてのお話
+
+(wikiにて説明)
+
+:arrow_down: 最初の
+
+```CSharp
+void Update(){
+    GameObject bullet
+        = Resources.Load <GameObject>("bullet");
+}
+```
+
+:arrow_down: 結論
+
+```CSharp
+GameObject bullet;
+void Update(){
+    bullet = Resources.Load <GameObject>("bullet");
+}
+```
+
 ----
 
-## 自機の現在位置を取得する
+ここまでで`弾のPrefab`の読み込みが完了
 
-==**弾の挙動**== 
-弾は自機と同じY座標(横線上)に出現させる
-そのあと弾はまっすぐ左に進む
+:arrow_down:
 
-:arrow_right:自機の現在位置をつかむ必要がある
+次は`Update()`内の処理
 
 ----
-## 自機の現在位置を取得する
+## 敵の`Update()`を書く
 
-`transform.position`は自分(敵自身)の位置 
+自機の現在位置を取得
+:arrow_right:それをもとにゲーム上に弾を生成
 
-自分以外のGameObject情報を知りたい
-　　　　　　　　　　　:arrow_down:
+まずは自機の現在位置の取得
+
+----
+### 自機の現在位置の取得
+「自機の現在位置を取得する」という処理は
+
+- ==ゲーム上に存在する自機を取得する。==
+- ==取得した自機から位置情報を抜き出す。==
+
+からなる。
+
+----
+### 自機の取得
+
+:arrow_down:ゲーム上に存在するゲームオブジェクトの取得
+```CSharp
+GameObject.Find(  ここにHierarchy上での名前を書く  );
+```
+
+:arrow_down:`"me"`の取得
 ```CSharp
 GameObject target = GameObject.Find("me");
 ```
-これでHierarchy上にある「me」という名前のオブジェクトが取得できる
+
+`target`は自機を指す。
+
+<br/>
+
+自機の取得完了！
 
 ----
-## 自機の現在位置を取得する
+### 自機の位置情報を抜き出す
 
-このオブジェクトの`transform`情報を参照したい<br>
-　　　　　　　　　　　:arrow_down:
+自機の位置情報の取り出し方
+:arrow_right: `target.transform.position.y`
 
+<br/>
+
+<br/>
+
+<br/>
+
+### ==**TIPS:**==
+ドット`.`という記号
+:arrow_right: 日本語の「の」（所有格）
+
+
+----
+:arrow_down:今までのところ
 ```CSharp
-GameObject target = GameObject.Find("me");
-float targetPosY = target.transform.position.y;
+void Update () {
+    // 自機の取得
+    GameObject target = GameObject.Find("me");
+    
+    // 自機のy座標を抜き出す
+    float targetPosY = target.transform.position.y;
+}
 ```
-----
-# 5
-# 弾の生成
-----
 
-## 弾の生成
-ここまでで弾を生成する準備が整った
-:white_check_mark:弾の用意
-:white_check_mark:弾の読み込み
-:white_check_mark:生成された後の弾の挙動
+<br/>
+
+続いて弾を生成します。
 
 ----
-## 弾の生成
+### 弾の生成
+:arrow_down:GameObjectをゲーム上に生成する。
 
-GameObjectの生成は以下のように書く
 ```CSharp
-GameObject bullet = Resources.Load <GameObject>("bullet");
+Instantiate (  生成したいGameObject型の変数  );
+```
+
+:arrow_down:先ほど読み込んだ`bullet`をゲーム上に生成する。
+
+```CSharp
 Instantiate (bullet);
 ```
-  
-1. `Instantiate()`関数に作りたいGameObjectを投げる
-2. 作ってくれる
-3. おわり
 
----- 
-## 弾の生成
+<br/>
 
 ==**問題点**==
-このままでは生成したい位置を指定できない
-
-==**解決策**==
-実は、`Instantiate()`関数にも返り値がある
-:arrow_right:生成したGameObjectを返してくれる
+**自機と同じy座標にない！**
 
 ----
 
-## 弾の生成
+==**解決策**==
+`Instantiate()`関数の返り値を使う。
 
 ```CSharp
-//弾の読み込み
-GameObject bullet = Resources.Load <GameObject>("bullet");
-
-//座標の取得
-GameObject target = GameObject.Find("me");
-float targetPosY = target.transform.position.y;
-
-//弾の生成
+// 弾の生成
 GameObject clone = Instantiate (bullet);
+
+// 生成された弾(clone)の位置を変更。
 clone.transform.position = new Vector2 (-4f, targetPosY);
 ```
 ----
-## 弾の生成
-==**問題点**==
-このまま弾の生成処理を`Update()`に書く
-:arrow_right:フレーム毎に弾が作られる
-:arrow_right:地獄のような弾幕が作られる
 
-==**解決策**==
-そこで、弾の生成に間隔を設ける
+:arrow_down:`Update()`内部
 
-フレームごとではなく、実時間で管理したい
-:arrow_right:Timeクラス
+```CShape
+void Update () {
+    // 自機の取得
+    GameObject target = GameObject.Find("me");
+
+    // 自機のy座標を抜き出す
+    float targetPosY = target.transform.position.y;
+    
+    // 弾の生成
+    GameObject clone = Instantiate (bullet);
+
+    // 生成された弾(clone)の位置を変更。
+    clone.transform.position
+        = new Vector2 (-4f, targetPosY);
+}
+```
+
+スクリプトを敵にくっつけて
+ここまででとりあえず実行...
 
 ----
-## 弾の生成
 
-Timeクラスは1フレームにかかる時間を教えてくれる
-`deltaTime`という変数を持っている
-<br>
+##### 何かおかしい...
+
+----
+### ==解決策==
+弾の生成に間隔を設ける
+
+:arrow_down:
+
+==実時間の1秒ごとに弾を生成する==ことにします。
+
+----
+
 
 ```CSharp
 float time = 0;
-void Update(){
-	time += 1f * Time.deltaTime;
+
+void Update () {
+    time += Time.deltaTime;
+    
+    if (time >= 1f) {
+        // ここに弾の生成処理(wikiには書いてある)。
+        
+        // time変数の値を0に戻す。
+        time = 0;
+    }
 }
 ```
-このように書くと、
-変数`time`は1秒に1だけ増えていく変数となる
+
+<br/>
+解説します。wikiも参照。
 
 ----
-## 弾の生成
 
-それでは、1秒ごとに1つ弾を生成するプログラムを書いてみましょう。
+<!-- template: invert -->
 
-(資料ページ参照)
+##### 1. 弾のひな形の用意
+##### 2. 弾の挙動を書く
+##### 3. 敵の用意
+##### 4. 敵の挙動を書く
 
-これをHierarchyウィンドウから敵にくっつける
-:arrow_right:生成した後はPrefabにくっつけたプログラムによって弾はそれぞれ勝手に動く
+# ==完成!==
 
 
 ----
 <!-- template: default -->
-# まとめ
 
-- ゲーム中でGameObjectをつくる
-:arrow_right:Prefabとして事前に準備
-:arrow_right:Instantiate()でPrefabを生成
+##### 今回新しく学んだこと
 
-- 他のGameObjectを参照する
-:arrow_right:GameObject.Find("")で見つけることが出来る
+- シューティングゲームの弾のように、ゲームの最初からはなく、大量生産されるものには`Prefab`を使う。  
+  :arrow_right:`Prefab`の作り方
+
+- `Prefab`を読み込んで、ゲーム上に生成する。  
+  :arrow_right:`Resources.Load`関数、`Instantiate`関数
+	
+- `Hierarchy`上にあるゲームオブジェクトの取得。  
+  :arrow_right:`GameObject.Find`関数
+	
+- 他のゲームオブジェクトの位置情報の取得。  
+  :arrow_right:`(ゲームオブジェクト).transform.position`
 
 
 ----
@@ -326,5 +494,7 @@ void Update(){
 <!-- page_number: false -->
 
 # やってみよう！
-###### 分からないことがあったら周囲の先輩に聞いてみよう
+
+###### 分からないことがあったら周囲の先輩に聞いてください
+
 
