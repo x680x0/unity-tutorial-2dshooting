@@ -27,16 +27,17 @@
 
 ##### プログラムの流れ
 <div class="center">
-<img style="width:65%" src="../../Images/5/OverView5.png">
+<img style="width:65%" src="../Images/5/OverView5.png">
 </div>
 
 ----
-<!-- template: invert -->
 # 1
 # 当たり判定の準備
 ----
 
 ### 物理演算
+
+ゲームで実世界のような物理挙動をさせる大切な要素
 
 一般に当たり判定は物理演算の1つ
 
@@ -70,10 +71,10 @@ Unityで物理演算をさせたい
 
 
 1. HierarchyまたはProjectからオブジェクトを選択
-2. Component > Physics2D > Rigdbody2D
+2. Component > Physics2D > Rigidbody2D
   
 <div class="center">
-<img style="width:80%" src="../../Images/5/AddRigidbody.png">
+<img style="width:80%" src="../Images/5/AddRigidbody.png">
 </div>
 
 
@@ -112,14 +113,15 @@ Projectウィンドウから変更しよう
 
 Rigidbodyコンポーネントを設定しよう
 
-1. BodyType : Dynamic -> Kinematic
+1. BodyType : `Dynamic` -> `Kinematic`
+DynamicとKinematicで設定項目が変わるので注意
 2. Use Full Kinematic Contacts : :white_check_mark:
 
 <div class="center">
-<img style="width:80%" src="../../Images/5/SetRigidbody.png">
+<img style="width:70%" src="../Images/5/SetRigidbody.png">
 </div>
 
-これもプレイヤーと弾の両方に行います。
+これもプレイヤーと弾の両方に行う
 
 ----
 #### 判定範囲の設定
@@ -131,7 +133,7 @@ Rigidbodyコンポーネントを設定しよう
 2. 弾をProjectから選び、`Component > Physics2D > Box Collider 2D`  
 
 <div class="center">
-<img style="width:70%" src="../../Images/5/AddBoxCollider.png">
+<img style="width:70%" src="../Images/5/AddBoxCollider.png">
 </div>
 
 ----
@@ -142,6 +144,9 @@ Rigidbodyコンポーネントを設定しよう
 :arrow_right:「プレイヤーと弾が重なっているか」を知るため
 
 ==実際に衝突させるわけではない==
+:arrow_right:そこで使うのがトリガー
+　:arrow_right:実際にぶつからないが、
+ 　　接触しているかどうかプログラムから取得出来る
 
 2つの判定エリアが重なっているかどうかのみ検出
 :arrow_right:両方のコライダの`IsTrigger`項目にチェック
@@ -229,7 +234,7 @@ GameObjectごと削除する場合、以下のように書く
 プレイヤーのプログラムに以下を追記しましょう。
 
 ```CSharp
-void OnTriggerEnter2D (Collider2D c){
+void OnTriggerStay2D (Collider2D c){
     Destroy (this.gameObject);
 }
 ```
@@ -289,7 +294,7 @@ GameObjectに「タグ」を付けることで、
 :arrow_right:`OnTriggerStay2D()`関数を以下のように編集
 
 ```CSharp
-void OnTriggerEnter2D (Collider2D c){
+void OnTriggerStay2D (Collider2D c){
 	if (c.gameObject.tag == "Enemy")
 		Destroy (this.gameObject);
 }
@@ -310,6 +315,53 @@ void OnTriggerEnter2D (Collider2D c){
 
 今後は敵の種類を追加する際も、
 敵に`Enemy`タグを追加するだけでOK
+
+----
+### プレイヤー消滅後のエラー
+
+これで今日の目的は達成  :satisfied:
+
+しかし、プレイヤーの消滅後にConsoleにエラー
+
+<div class="center">
+<img style="width:70%" src="../Images/5/NullReference.png">
+</div>
+
+書かれていることはとても単純 
+Unityのエラーメッセージでは、
+- 冒頭にエラーの概要
+- 最後の行でエラーが引き起こされた原因の行
+
+----
+### プレイヤー消滅後のエラー
+つまり、  
+- 起きたエラー : MissingReferenceException  
+- 発生した場所 : enemy.csの21行目
+
+`MissingReferenceException`:参照先が見つからない
+
+----
+### プレイヤー消滅後のエラー
+
+この行でエラーが発生  
+```CS
+targetPosY = target.transform.position.y;
+```
+
+敵は、起動時にプレイヤーをターゲットとして捕捉
+:arrow_right:そこからフレーム毎にプレイヤーの座標を取得
+
+しかし、弾が当たったタイミングでプレイヤーは消滅  
+:arrow_right:消滅以後、敵はプレイヤーを見失う
+　:arrow_right:当然座標も取得できない
+ 
+よって、このエラーが発生した
+
+----
+### プレイヤー消滅後のエラー対処法
+
+:arrow_right: 自由課題
+
 
 ----
 <!-- template: default -->
