@@ -59,7 +59,7 @@ uGUIもゲームオブジェクト
 :arrow_right:`GameObject  > UI`の中から選んで作る
 
 <div class="center">
-<img style="width:75%" src="../../Images/6/CreateuGUIText.png">
+<img style="width:75%" src="../Images/6/CreateuGUIText.png">
 </div>
 
 ----
@@ -191,7 +191,8 @@ void Update () {
 `ToString()`関数を使ってケタ数の指定をする
 
 ```CSharp
-    string s = (1.14f).ToString("F0");
+    string a = (1.14f).ToString("F0");
+    string b = (1.14f).ToString("F1");
 ```
 
 ----
@@ -227,7 +228,7 @@ Textを作っただけだと、位置が不適切
 :arrow_right:Transformと同じように、位置の調整
 
 <div class="center">
-<img style="width:100%" src="../../Images/6/AdjustTextPosition.png">
+<img style="width:100%" src="../Images/6/AdjustTextPosition.png">
 </div>
 
 ----
@@ -246,7 +247,7 @@ RectTransformの持つ`Anchor`(アンカー)
 
 RectTransformコンポーネントの左上
 <div class="center">
-<img style="width:15%" src="../../Images/6/DefaultAnchor.png">
+<img style="width:15%" src="../Images/6/DefaultAnchor.png">
 </div>
 
 :arrow_right:RectTransformの持つ **座標の基準点は中央** であることを表す
@@ -260,7 +261,7 @@ RectTransformコンポーネントの左上
 ### Anchor(アンカー)の基本
 Anchor表示の部分をクリック
 <div class="center">
-<img style="width:40%" src="../../Images/6/AnchorPresets.png">
+<img style="width:40%" src="../Images/6/AnchorPresets.png">
 </div>
 
 ----
@@ -269,7 +270,7 @@ Anchor表示の部分をクリック
 :arrow_right:真ん中上段のAnchorを選ぶ
 
 <div class="center">
-<img style="width:50%" src="../../Images/6/TopCenterAnchor.png">
+<img style="width:50%" src="../Images/6/TopCenterAnchor.png">
 </div>
 
 ----
