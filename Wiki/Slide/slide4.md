@@ -602,7 +602,7 @@ Instantiate (bullet);
 GameObject clone = Instantiate (bullet);
 
 // 生成された弾(clone)の位置を変更。
-clone.transform.position = new Vector2 (-4f, targetPosY);
+clone.transform.position = new Vector2 (4f, targetPosY);
 ```
 ----
 ###### 4. 敵の挙動を書く > 敵の`Update()`を書く
@@ -623,7 +623,7 @@ void Update () {
 
     // 生成された弾(clone)の位置を変更。
     clone.transform.position
-        = new Vector2 (-4f, targetPosY);
+        = new Vector2 (4f, targetPosY);
 }
 ```
 
