@@ -93,7 +93,8 @@ uGUIもゲームオブジェクト
 ## EventSystem
 
 - ユーザーとuGUIオブジェクトをつなぐ仲介役
-- ゲーム中、ボタンのクリックなどのを受け取り、uGUIオブジェクトを操作する
+- ゲーム中、画面上のボタンのクリックなど
+を受け取り、uGUIオブジェクトを操作する
 	- 「Inputクラスから情報をuGUIオブジェクトに与える」といったようなことをする必要はない
 
 ----
@@ -110,7 +111,7 @@ Transformコンポーネントへのアクセス`gameObject.transform....`
 
 これはTransformがすべてのGameObjectにくっついているから出来た
 
-:arrow_right:**==Tarsnform以外==** 
+:arrow_right:**==Transform以外==** 
 `GetComponent<T>()`関数を使って取得する必要
 
 ----
@@ -119,7 +120,7 @@ Transformコンポーネントへのアクセス`gameObject.transform....`
 **==<例>==** `Rigidbody2D`コンポーネントの取得
 
 ```CSharp
-    Rigidbody2D rectTransformComponent = 
+    Rigidbody2D rigidbodyComponent = 
     	gameObject.GetComponent<Rigidbody2D> ();
 ```
 
@@ -140,6 +141,8 @@ Transformコンポーネントへのアクセス`gameObject.transform....`
 
 ----
 ### Textコンポーネントの取得
+<!-- template:invert-->
+
 それでは、Textコンポーネントを取得してみよう
 
 ```CSharp
@@ -149,14 +152,15 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour {
 	Text textComponent;
 	void Start (){
-		textComponent = GetComponent<Text> ();
+		textComponent = this.gameObject
+        			.GetComponent<Text> ();
 	}
 }
 ```
 
-:collision:**==注意==**
+:collision:**注意**
 ゲームが始まってからコンポーネントを取得する
-`Start()`あるいは`Update()`内で呼ぶ
+`Start`または`Update`関数内で呼ぶ
 
 ----
 ### タイマーの実装
@@ -164,22 +168,28 @@ public class Timer : MonoBehaviour {
 Timeクラスを使って1秒に1カウントする
 
 ```C
-float timer = 0;
+float timer;
 void Update () {
-    timer += 1f * Time.deltaTime;
+    timer = 0f;
+    timer += Time.deltaTime;
 }
 ```
+
+:warning:変数名とクラス名が被ってはいけない
+
+この場合は`timer`という名前の
+C#スクリプト(クラス)を作ってはいけない
 
 ----
 ### タイマーの実装
 
 この値をTextコンポーネントに適用させる  
 
-:collision:**==注意==** 
+:collision:**注意** 
 `float`を`string`に代入することはできない  
 :arrow_right:ToString()関数を使うことで文字列型に変換
 
-**==<例>==**`ToString()`関数の使用例
+**<例>**`ToString()`関数の使用例
 
 ```CS
     string s = (1.14f).ToString();
@@ -203,13 +213,14 @@ Textコンポーネントの文字情報を持つ変数は`text`
 
 
 ```C
-float timer = 0;
+float timer;
 Text textComponent;
 void Start (){
-	textComponent = this.GetComponent<Text> ();
+    timer = 0f;
+    textComponent = this.gameObject.GetComponent<Text> ();
 }
 void Update () {
-	timer += 1f * Time.deltaTime;
+	timer += Time.deltaTime;
 	textComponent.text = timer.ToString("F0");
 }
 ```
@@ -220,6 +231,8 @@ void Update () {
 
 # 3
 # RectTransformの基本
+<!-- template:default-->
+
 ----
 
 ### Anchor(アンカー)の基本
