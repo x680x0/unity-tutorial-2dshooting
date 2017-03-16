@@ -84,15 +84,15 @@ Unityで物理演算をさせたい
 
 #### :collision:Prefabをいじるときの注意
 
-PrefabをHierarchyに残していませんか？
+==PrefabをHierarchyに残していませんか？==
 
 Hierarchy上のPrefabを変更
-:arrow_right:設定が変わるのは今Hierarchyにある1つのみ
+:arrow_right:設定が変わるのは **今Hierarchyにある1つのみ**
 
 - あくまでHierarchyにあるのはPrefabの実体  
 - 素材としてのPrefabに変更は適用されない
   
-HierarchyにあるPrefabの実体は必ず消して、
+HierarchyにあるPrefabの実体は必ず消し、
 Projectウィンドウから変更しよう
 
 ----
@@ -114,14 +114,14 @@ Projectウィンドウから変更しよう
 Rigidbodyコンポーネントを設定しよう
 
 1. BodyType : `Dynamic` -> `Kinematic`
-DynamicとKinematicで設定項目が変わるので注意
-2. Use Full Kinematic Contacts : :white_check_mark:
+:warning:==DynamicとKinematicで設定項目が変わる==
+2. Use Full Kinematic Contacts : :white_check_mark:をつける
 
 <div class="center">
 <img style="width:70%" src="../Images/5/SetRigidbody.png">
 </div>
 
-これもプレイヤーと弾の両方に行う
+これもプレイヤーと弾の ==**両方に行う**== 
 
 ----
 #### 判定範囲の設定
@@ -149,7 +149,7 @@ DynamicとKinematicで設定項目が変わるので注意
  　　接触しているかどうかプログラムから取得出来る
 
 2つの判定エリアが重なっているかどうかのみ検出
-:arrow_right:両方のコライダの`IsTrigger`項目にチェック
+:arrow_right: ==両方==のコライダの`IsTrigger`項目にチェック
 
 ----
 
@@ -159,6 +159,7 @@ DynamicとKinematicで設定項目が変わるので注意
 
 ----
 ### 当たり判定の検出
+<!--template: invert-->
 
 検出方法には以下の3通り
 
@@ -173,9 +174,10 @@ void OnTriggerStay2D(Collider2D c){}
 void OnTriggerExit2D(Collider2D c){}
 ```
 
-今回の場合は==1と2のどちらでもOK==
+今回の場合は **1と2のどちらでもOK**
+(当たっていることが分かればよい)
 
-以下の例では2を使います。
+以下の例では2を使う
 
 ----
 ### 当たり判定の検出
@@ -183,17 +185,24 @@ void OnTriggerExit2D(Collider2D c){}
 検出は以下のように書く
 
 ```CSharp
-void OnTriggerStay2D(Collider2D c){
-	<2つのコライダが重なっている間実行される処理>
+public class hoge : MonoBehaviour{
+
+	void Start() {}
+	void Update() {}
+    
+	voad OnTriggerStay2D(Collider2D c){
+		<2つのコライダが重なっている間実行される処理>
+	}
 }
 ```
+:warning:Start関数やUpdate関数と並べて書くことに注意
 
 ----
 ### 当たり判定の検出
 
 ちなみに、IsTriggerが無効だった場合はいかの3通り
 
-チェックを入れなかった場合==検出方法が変わる==
+チェックを入れなかった場合 **検出方法が変わる**
 
 ```CSharp
 void OnCollisionEnter2D(Collision2D c){}
@@ -203,23 +212,26 @@ void OnCollisionExit2D(Collision2D c){}
 
 ----
 
-###  自機の消滅
+###  プレイヤーの消滅
+<!--template: default-->
 コンポーネント・オブジェクトの削除
 :arrow_right:`Destroy()`関数
 
+==<例>:x:ダメな例==
 ```CSharp
 	Destroy(this);
 ```
-さて、上記の例において、`this`とは:grey_question:  
+さて、上記の例において、`this`とは:question:  
 
-:arrow_right:`this`とは、プログラムコンポーネント自身
+:arrow_right:ここで`this`とは、プログラムコンポーネント自身
 
 もしこれを書いても、
 削除されるのはプログラムコンポーネントのみ
 
 ----
-###  自機の消滅
+###  プレイヤーの消滅
 
+==<例>:o:正しい例==
 GameObjectごと削除する場合、以下のように書く
 
 ```CSharp
@@ -230,8 +242,9 @@ GameObjectごと削除する場合、以下のように書く
 ----
 
 ### 実装
-それでは、弾がプレイヤーに当たったら消えるプログラムを書いてみましょう。  
-プレイヤーのプログラムに以下を追記しましょう。
+<!--template: invert-->
+弾がプレイヤーに当たったら消えるプログラムを書く 
+プレイヤーのプログラムに以下を追記
 
 ```CSharp
 void OnTriggerStay2D (Collider2D c){
@@ -239,12 +252,14 @@ void OnTriggerStay2D (Collider2D c){
 }
 ```
 
-この状態で実行してみましょう。  
-弾に当たったらプレイヤーが消滅するのが分かると思います。
+\>この状態で実行
+
+弾に当たったらプレイヤーが消滅する
 
 ----
 
 ### 当たった先の識別
+<!--template: default-->
 
 これで一見今日の目標は達成:satisfied:
 
@@ -289,10 +304,10 @@ GameObjectに「タグ」を付けることで、
 ----
 
 ### 実装
+<!--template: invert-->
 
 当たり判定の検出の際、相手が本当に敵であるか確認
 :arrow_right:`OnTriggerStay2D()`関数を以下のように編集
-
 ```CSharp
 void OnTriggerStay2D (Collider2D c){
 	if (c.gameObject.tag == "Enemy")
@@ -309,7 +324,7 @@ void OnTriggerStay2D (Collider2D c){
 
 ----
 ### Tagの設定
-
+<!--template: default-->
 
 これで敵にぶつかったときのみプレイヤーが死ぬ
 
@@ -320,25 +335,29 @@ void OnTriggerStay2D (Collider2D c){
 ### プレイヤー消滅後のエラー
 
 これで今日の目的は達成  :satisfied:
-
 しかし、プレイヤーの消滅後にConsoleにエラー
 
 <div class="center">
-<img style="width:70%" src="../Images/5/NullReference.png">
+<img style="width:60%" src="../Images/5/NullReference.png">
 </div>
+
+>MissingReference(Null)Exception: The object of type 'GameObject' has been destroyed but you are still trying to access it.
+Your script should either check if it is null or you should not destroy the object.
+enemy.Update () (at Assets/Sciprts/enemy.cs:21)
+
+----
+### プレイヤー消滅後のエラー
 
 書かれていることはとても単純 
 Unityのエラーメッセージでは、
 - 冒頭にエラーの概要
 - 最後の行でエラーが引き起こされた原因の行
 
-----
-### プレイヤー消滅後のエラー
 つまり、  
-- 起きたエラー : MissingReferenceException  
+- 起きたエラー : MissingReference(Null)Exception  
 - 発生した場所 : enemy.csの21行目
 
-`MissingReferenceException`:参照先が見つからない
+`MissingReference(Null)Exception`:参照先が存在しない
 
 ----
 ### プレイヤー消滅後のエラー
@@ -361,18 +380,20 @@ targetPosY = target.transform.position.y;
 ### プレイヤー消滅後のエラー対処法
 
 :arrow_right: 自由課題
-
+講座ページからリンクしてあります
 
 ----
 <!-- template: default -->
-# まとめ
+### まとめ
 
 - 当たり判定
-:arrow_right:RigidbodyとColliderをくっつける
-:arrow_right:Dynamic(動的)/Kinematic(静的)を見極める
-:arrow_right:IsTriggerのオン/オフを見極める
-:arrow_right:IsTirggerによって書くプログラムが変わる
-
+	- RigidbodyとColliderをくっつける
+	- Dynamic/Kinematicを見極める
+	　(物理運動とスクリプトどちらで動かすか)
+	- IsTriggerのオン/オフを見極める
+	　(実際に衝突させるか)
+	- IsTirggerによって書くプログラムが変わる
+	　`OnTrigger◯◯◯`と`OnCollision◯◯◯`
 - GameObjectの識別
 :arrow_right:Tagを付けることで識別しやすくなる
 
