@@ -515,6 +515,23 @@ public class me : MonoBehaviour {
 :arrow_right:`transform.position`に変数の値を==代入==
 
 ----
+## 第4回の準備
+敵を準備する
+
+1. えっくちゅをもう一体ProjectウィンドウからSceneビューにD&D
+1. Hierarchyで右クリックし、`Rename`で名前を分かり易いものに変える
+1. `SpriteRenderer`コンポーネントの`Color`プロパティを赤色に弄る
+1. `Transform`コンポーネントの`Scale`をいじり、大きくする
+1. それっぽくなる
+
+----
+## 第4回の準備
+
+<div class="center">
+<img src="../Images/4/ReadyImage.png">
+</div>
+
+----
 <!-- template: gaia -->
 <!-- page_number: false -->
 
