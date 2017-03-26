@@ -81,15 +81,16 @@
 
 ----
 ### 変数の使い方
+<!-- template: invert -->
 
 用意した変数に、実際に情報を入れる
 ```CSharp
     int number;
     number = 2;
 ```
-これを変数への==代入==
+これを変数への**代入**
 
-:boom:代入の操作は何度でもでき、==上書き==される
+:boom:代入の操作は何度でもでき、**上書き**される
 
 ```CSharp
     int number;
@@ -108,12 +109,14 @@
 ```
 
 ----
+<!-- template: default -->
 ### 変数の使い方
 
 `int`以外に、変数の型には以下のようなものがある
 入れたい情報に応じて適宜選んであげる必要がある
 
 ----
+<!-- template: invert -->
 ### データ型いろいろ
 
 1. **整数 :** `int`  
@@ -147,6 +150,7 @@
 `123`と`"123"`は違うデータ型であることに注意
 
 ----
+<!-- template: default -->
 ### データ型いろいろ
 
 4. **真偽値 :** `bool` 
@@ -191,7 +195,7 @@
     :x:`int player.1 = 100;`
 
 ----
-
+<!-- template: invert -->
 ### 変数と式
 変数には計算結果を入れることが出来る
 
@@ -199,7 +203,7 @@
     <足し算>
     int a = 1 + 2;
     <引き算>
-    int b
+    int b = 3 - 1;
     <掛け算>
     int c = 2 * 5;
     <割り算>
@@ -233,7 +237,7 @@
 ```
 
 ----
-
+<!-- template: default -->
 ## 現在位置の取得
 
 座標はフレーム毎に取得する
@@ -248,25 +252,34 @@
 
 
 ----
-
-### 現在位置の取得
+<!-- template: invert -->
 
 ```CSharp
-using UnityEngine;
-
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
-        //自身の座標を取り出す
+	    <現在位置の取得>
 	    posX = transform.position.x;
-            posY = transform.position.y;
+	    posY = transform.position.y;
+        
+	    <キー入力>
+	    if (Input.GetKey (KeyCode.UpArrow))
+		posY += 0.1f;
+            if (Input.GetKey (KeyCode.DownArrow))
+		posY -= 0.1f;
+	    if (Input.GetKey (KeyCode.RightArrow))
+		posX += 0.1f;
+	    if (Input.GetKey (KeyCode.LeftArrow))
+		posX -= 0.1f;
+        
+	    <位置の適用>
+     	    transform.position = new Vector2 (posX, posY);
 	}
 }
 ```
-これで、変数`posX`と`posY`には常に最新の座標情報が代入される
 
 ----
-
+<!-- template: default -->
 # 2
 # キー入力の受け取り
 
@@ -295,6 +308,7 @@ public class me : MonoBehaviour {
 - プログラムが1行だけであれば、`{}`も省略可
 
 ----
+<!-- template: invert -->
 ### 条件分岐
 
 ```CSharp
@@ -312,6 +326,7 @@ public class me : MonoBehaviour {
 - etc
 
 ----
+<!-- template: default -->
 ### 条件式
 
 主に以下のような種類がある
@@ -331,11 +346,11 @@ public class me : MonoBehaviour {
 キー入力されているかどうかチェックする
 :arrow_right:Inputクラス
 
-==**クラス**==:grey_question:
+==**クラス**==:question:
 機能がつまった集合体のようなもの
 
 
-==**Inputクラス**==:grey_question:
+==**Inputクラス**==:question:
 - キー入力検出
 - ゲームコントローラーの入力検出
 - etc
@@ -368,12 +383,40 @@ Inputクラスの中に`GetKey()`という関数がある
 :arrow_right:`Input.GetKey()`と`true`は同値
 
 ----
+<!-- template: invert -->
+
+```CSharp
+public class me : MonoBehaviour {
+	float posX, posY;
+	void Update () {
+	    <現在位置の取得>
+	    posX = transform.position.x;
+	    posY = transform.position.y;
+        
+	    <キー入力>
+	    if (Input.GetKey (KeyCode.UpArrow))
+		posY += 0.1f;
+            if (Input.GetKey (KeyCode.DownArrow))
+		posY -= 0.1f;
+	    if (Input.GetKey (KeyCode.RightArrow))
+		posX += 0.1f;
+	    if (Input.GetKey (KeyCode.LeftArrow))
+		posX -= 0.1f;
+        
+	    <位置の適用>
+     	    transform.position = new Vector2 (posX, posY);
+	}
+}
+```
+
+----
+<!-- template: default -->
 
 # 3
 # 位置の変更
 
 ----
-
+<!-- template: invert -->
 ## キー入力されていたら
 
 `Input.GetKey()`が`true`になったとき、Y座標を減らす
@@ -384,10 +427,10 @@ using UnityEngine;
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
-        //自身の座標を取り出す
+        <自身の座標を取り出す>
 	posX = transform.position.x;
         posY = transform.position.y;
-        //キー入力
+        <キー入力>
 	if (Input.GetKey (KeyCode.UpArrow) == true) 
 		posY -= 0.1f;
 	}
@@ -409,30 +452,34 @@ ifは条件式が、`true`か`false`かで条件分岐する
 と省略できる
 
 ----
-### キー入力されていたら
+<!-- template: invert -->
 
 ```CSharp
-using UnityEngine;
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
-    	    //自身の座標を取り出す
+	    <現在位置の取得>
 	    posX = transform.position.x;
-    	    posY = transform.position.y;
-    	    //キー入力
+	    posY = transform.position.y;
+        
+	    <キー入力>
 	    if (Input.GetKey (KeyCode.UpArrow))
-	  	posY += 0.1f;
-	    if (Input.GetKey (KeyCode.DownArrow))
+		posY += 0.1f;
+            if (Input.GetKey (KeyCode.DownArrow))
 		posY -= 0.1f;
-    	    if (Input.GetKey (KeyCode.RightArrow))
+	    if (Input.GetKey (KeyCode.RightArrow))
 		posX += 0.1f;
 	    if (Input.GetKey (KeyCode.LeftArrow))
 		posX -= 0.1f;
+        
+	    <位置の適用>
+     	    transform.position = new Vector2 (posX, posY);
 	}
 }
 ```
-----
 
+----
+<!-- template: default -->
 # 4
 # 変更した位置の適用
 
@@ -475,6 +522,7 @@ public class me : MonoBehaviour {
 このようにX座標とY座標を一度に与える必要がある
 
 ----
+<!-- template: invert -->
 全文
 
 ```CSharp
