@@ -3,10 +3,6 @@
 .center{
  text-align: center;
 }
-.center img {
-	width: 65%;
-}
-
 </style>
 
 <!-- template: gaia -->
@@ -20,7 +16,7 @@
 # 目的
 
 :arrow_right_hook:**==前回==**
-画像(自機)を矢印キーで移動させる
+画像(プレイヤー)を矢印キーで移動させる
 
 
 :arrow_right:**==今回==**
@@ -31,7 +27,7 @@
 ## 仕様
 - 敵は動かない
 - 敵が弾を作る
-- 弾は自機と同じy座標に生成される
+- 弾はプレイヤーと同じy座標に生成される
 - 弾は左側(x軸のマイナス方向)に等速で飛んでいく
 
 ----
@@ -78,18 +74,13 @@
 1. ゲーム中にひな形の **クローン** を作る
 
 
-
-----
-### 1. 弾のひな形の用意
-
-ひな形 :arrow_right: `Prefab`
-
-弾の`Prefab`をつくる
+ひな形 : **Prefab**
+:arrow_right:弾のPrefabをつくる
 
 ----
 
 ###### 1. 弾のひな形の用意
-### > 弾の`Prefab`の作り方(1)
+### 弾の`Prefab`の作り方(1)
 
 1. 弾に使う画像を用意
 1. 弾の画像をInspectorからFilterModeを`Point`に
@@ -101,21 +92,15 @@
 
 ----
 ###### 1. 弾のひな形の用意
-### > 弾の`Prefab`の作り方(2)
+### 弾の`Prefab`の作り方(2)
 
 1. Projectウィンドウで右クリック
    :arrow_right:`Create > Folder`で`Resources`フォルダを作成
 1. Hierarchyにある弾を`Resources`にD&D
 1. Hierarchyにある弾選択&右クリック:arrow_right:`Delete`
 
-----
-###### 1. 弾のひな形の用意
-### ==**TIPS**==
-  
-:white_check_mark: `Prefab`を置くフォルダの名前は`Resources`以外にしてはいけません。
+:warning: `Prefab`を置くフォルダの名前は`Resources`以外にしてはいけません
 
-詳しくはwikiのトップページの下のほうに...  
-つまりは、仕様ということです...
 
 ----
 ###### 1. 弾のひな形の用意
@@ -134,7 +119,7 @@
 
 ----
 ###### 1. 弾のひな形の用意
-## > Prefabとは:grey_question:
+## Prefabとは:question:
 PrefabとGameObjectは違う
 
 **Prefab**
@@ -158,107 +143,75 @@ PrefabとGameObjectは違う
 <!-- template: default -->
 ## 2. 弾の挙動を書く
 
->横に進む
+**仕様**
+- 横に進む
+- 弾は左側(x軸のマイナス方向)に等速で飛ぶ
 
->弾は左側(x軸のマイナス方向)に等速で飛んでいく。
-
-このように作っていきます。
-
-----
-## 2. 弾の挙動を書く
-
-まずは==スクリプトファイルの作成==
+まずはスクリプトファイルの作成(復習)
 
 1. Projectウィンドウで右クリック
 2. `Create > C# Script`
 3. 作られたファイルをダブルクリック
-
 ----
+
+<!-- template: invert -->
+
 ###### 2. 弾の挙動を書く
 :arrow_down:弾のスクリプト(解説します)
 
 ```CSharp
-// using 云々(スペースの関係で省略。wikiにはあります)
-
 public class bullet : MonoBehaviour {
     void Update () {
-        // 弾の位置情報の抜き出し
+
+        <弾の位置情報の抜き出し>
         float posX = transform.position.x;
         float posY = transform.position.y;
-        
-        // 弾の位置の計算
+
+        <弾の位置の計算>
         posX += -5f * Time.deltaTime;
-        
-        // 更新
+
+        <更新>
         transform.position = new Vector2 (posX, posY);
     }
 }
 ```
 
-
 ----
-###### 2. 弾の挙動を書く
-## > Time.deltaTimeとは
+######  Time.deltaTimeとは
 
-1フレームの時間間隔は一定ではない。
-
-:arrow_down:これでは等速で移動しない。
+:thumbsdown:**問題点** : 等速で移動しない
 ```CSharp
 posX += -5f;
 ```
+1フレームの時間間隔は一定ではないため
 
-----
-###### 2. 弾の挙動を書く
-## > Time.deltaTimeとは
+:thumbsup:**解決策** : 速度に変化時間をかける
 
-# `Time.deltaTime`
-- １フレームの時間間隔の実測値を示す
-- `float`型
-- 単位は実時間の秒
+1フレームあたりの変化時間 : `Time.deltatime`
 
-----
-###### 2. 弾の挙動を書く
-## > Time.deltaTimeとは
-
-> **(変位) = (速度) × (変化時間)**
-
-変化時間が`Time.deltaTime`にあたる。
-
-<br/>
-
-:arrow_down: 等速運動させる処理
 ```CSharp
 posX += -5f * Time.deltaTime;
 ```
 
 ----
 ###### 2. 弾の挙動を書く
-:arrow_down:弾のスクリプト(解説済み)
-
 ```CSharp
-// using云々(省略)
-
 public class bullet : MonoBehaviour {
     void Update () {
-        // 弾の位置情報の抜き出し
+        <弾の位置情報の抜き出し>
         float posX = transform.position.x;
         float posY = transform.position.y;
-        
-        // 弾の位置の計算
+        <弾の位置の計算>
         posX += -5f * Time.deltaTime;
-        
-        // 更新
+        <更新>
         transform.position = new Vector2 (posX, posY);
     }
 }
 ```
+弾のスクリプトをProjectのPrefabにくっつける
 
 ----
-###### 2. 弾の挙動を書く
-
-出来上がった弾のスクリプトをProjectウィンドウのPrefabにくっつける
-
-----
+<!-- template: default -->
 
 ## :boom:**注意**  
 
@@ -277,27 +230,8 @@ public class bullet : MonoBehaviour {
 
 ##### 1. 弾のひな形の用意
 ##### 2. 弾の挙動を書く
-# ==3. 敵の用意==
+# ==3. 敵の用意==(第3回)
 ##### 4. 敵の挙動を書く
-
-----
-<!-- template: default -->
-###### 3. 敵の用意
-## > 敵の作り方
-
-1. えっくちゅをもう一体ProjectウィンドウからSceneビューにD&D
-1. Hierarchyで右クリックし、`Rename`で名前を分かり易いものに変える
-1. `SpriteRenderer`コンポーネントの`Color`プロパティを赤色に弄る
-1. `Transform`コンポーネントの`Scale`をいじり、大きくする
-1. それっぽくなる
-
-----
-###### 3. 敵の用意
-
-これで敵の用意が出来た
-<div class="center">
-<img src="../Images/4/ReadyImage.png">
-</div>
 
 ----
 <!-- template: invert -->
@@ -312,26 +246,19 @@ public class bullet : MonoBehaviour {
 
 ## 4. 敵の挙動を書く
 ==仕様==曰く、
-
-> - 敵は動かない
-> - 敵が弾を作る
-> - 弾は自機と同じy座標に生成される
-
-----
-## 4. 敵の挙動を書く
+- 敵は動かない
+- 敵が弾を作る
+- 弾はプレイヤーと同じy座標に生成される
 
 ==実行時のプログラムの流れ==曰く、
 
-> `Start()`内で **事前に用意しておいた弾** を読み込む
-
-> `Update()`内で自機の位置を取得して、この情報をもとに **読み込んでおいた弾** をゲーム上に生成する
+- `Start()`内で **事前に用意しておいた弾** を読み込む
+- `Update()`内でプレイヤーの位置を取得して、この情報をもとに **読み込んでおいた弾** をゲーム上に生成する
 
 ----
 
 ## 4. 敵の挙動を書く
-まずは敵用のスクリプトを用意
-
-<br/>
+まずは敵用のスクリプトを用意 ==(復習)==
 
 1. Projectウィンドウで右クリック
 2. `Create > C# Script`
@@ -340,35 +267,21 @@ public class bullet : MonoBehaviour {
 ----
 
 ###### 4. 敵の挙動を書く
-## > 敵の`Start()`を書く
+### 敵の`Start()`を書く
 
-書くべきことは
+**事前に用意しておいた弾** を読み込む
+:arrow_right: 弾のPrefabを読み込む
 
-> **事前に用意しておいた弾** を読み込む
+### Prefabの読み込み
 
-事前に用意しておいた弾 :arrow_right: 弾の`Prefab`
-
-<br/>
-
-:star: `Start()`内では、弾の`Prefab`の読み込みを行う
-
-----
-###### 4. 敵の挙動を書く > 敵の`Start()`を書く
-## > `Prefab`の読み込み
-
-<br/>
-
-:arrow_down: `Prefab`を(GameObjectとして)読み込む
-
+:arrow_down: Prefabを==GameObjectとして==読み込む
 ```CSharp
 Resources.Load <GameObject>(  リソースフォルダ内ので名前  );
 ```
-
 ----
-###### 4. 敵の挙動を書く > 敵の`Start()`を書く
-## > `Prefab`の読み込み
+###### 4. 敵の挙動を書く > 敵のStart()を書く
+### Prefabの読み込み
 
-<br/>
 
 :arrow_down: 弾の`Prefab`を読み込む
 
@@ -376,51 +289,41 @@ Resources.Load <GameObject>(  リソースフォルダ内ので名前  );
 GameObject bullet = Resources.Load <GameObject>("bullet");
 ```
 
-<br/>
-
-これを`Start()`内に書いたらOK...ではない
+:warning:これを`Start()`内に書いたらOKではない
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Start()`を書く
-## > `Prefab`の読み込み
-
+<!-- template: invert -->
+###### 4. 敵の挙動を書く > 敵のStart()を書く
+### Prefabの読み込み
 
 :arrow_down: ダメ
-
 ```CSharp
 void Start(){
     GameObject bullet;
     bullet = Resources.Load <GameObject>("bullet");
 }
 ```
-
 :arrow_down: こうする
-
 ```CSharp
 GameObject bullet;
 void Start(){
     bullet = Resources.Load <GameObject>("bullet");
 }
 ```
+----
+<!-- template: default -->
+###### 4. 敵の挙動を書く > 敵のStart()を書く
+### Prefabの読み込み
+
+:warning:Start()内で変数宣言をするとUpdate()で使えない
+
+<div class="center">
+<img style="width:100%" src="../Images/4/VariableLife.png">
+</div>
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Start()`を書く
-## > `Prefab`の読み込み
-
-<br/>
-
-:arrow_down: これはだめ
-```CSharp
-GameObject bullet = Resources.Load <GameObject>("bullet");
-void Start(){
-}
-```
-
-----
-
-###### 4. 敵の挙動を書く
-## > 敵の`Start()`を書く
-
+<!-- template: invert -->
+###### 4. 敵の挙動を書く > 敵のStart()を書く
 
 ```CSharp
 using System.Collections;
@@ -436,188 +339,103 @@ public class enemy : MonoBehaviour {
     }
 
     void Update () {
-        // bulletを使った処理
+        <bulletを使った処理>
     }
 }
 ```
-
-
 ----
+<!-- template: default -->
 ###### 4. 敵の挙動を書く
-## > 敵の`Update()`を書く
+## 敵のUpdate()を書く
 
-<br/>
+**==流れ==**
 
-### ==やること==
-
-1. 自機の現在位置を取得
+1. プレイヤーの現在位置を取得
+	1. ゲーム上に存在するプレイヤーを取得する
+	1. 取得したプレイヤーから位置情報を抜き出す
 1. その情報をもとにゲーム上に弾を生成
 
-
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 自機の現在位置の取得
-「自機の現在位置を取得する」という処理は
+###### 4. 敵の挙動を書く > 敵のUpdate()を書く
+### プレイヤーの取得
 
-- ==ゲーム上に存在する自機を取得する==
-- ==取得した自機から位置情報を抜き出す==
-
-からなる
-
-----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-###### > 自機の現在位置の取得
-### > 自機の取得
-
-<br/>
-
-:arrow_down:ゲーム上に存在するゲームオブジェクトの取得
+ゲーム上に存在するゲームオブジェクトの取得
 ```CSharp
 GameObject.Find(  ここにHierarchy上での名前を書く  );
 ```
-
-----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-###### > 自機の現在位置の取得
-### > 自機の取得
-
-<br/>
-
-:arrow_down:`"me"`の取得
+:arrow_down:プレイヤーの取得 (Hierarchy上の名前は`me`)
 ```CSharp
 GameObject target = GameObject.Find("me");
-```
-
-`target`は自機を指す。
-
-<br/>
-
-自機の取得完了！
+````
+`target`はプレイヤーを指す。
+プレイヤーの取得完了！
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-###### > 自機の現在位置の取得
-### > 自機の位置情報を抜き出す
-
-<br/>
-
+###### 4. 敵の挙動を書く > 敵のUpdate()を書く
+### プレイヤーの位置情報を抜き出す
 
 :arrow_down: `target`のy座標の取り出し方
 ```CSharp
+<プレイヤーの取得>
+GameObject target = GameObject.Find("me");
+
+<プレイヤーのy座標を抜き出す>
 float targetPosY = target.transform.position.y;
 ```
 
-<br/>
-
-自機の現在位置の取得が完了
+これでプレイヤーの現在位置の取得が完了！
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 自機の現在位置の取得
 
-:arrow_down:今までのところ
-```CSharp
-void Update () {
-    // 自機の取得
-    GameObject target = GameObject.Find("me");
-    
-    // 自機のy座標を抜き出す
-    float targetPosY = target.transform.position.y;
-}
-```
+###### 4. 敵の挙動を書く > 敵のUpdate()を書く
+## 弾の生成
 
-
-----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
 :arrow_down:GameObjectをゲーム上に生成する
-
 ```CSharp
 Instantiate (  生成したいGameObject型の変数  );
 ```
-
-----
-
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
-
-:arrow_down:GameObjectをゲーム上に生成する
-
-```CSharp
-Instantiate (  生成したいGameObject型の変数  );
-```
-
-<br/>
 
 :arrow_down:先ほど読み込んだ`bullet`をゲーム上に生成する
-
 ```CSharp
 Instantiate (bullet);
 ```
 
-
 ----
 ###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
+## 弾の生成
 
-<br/>
+==:thumbsdown:**問題点**==
+生成した弾が **プレイヤーと同じy座標にない**
 
-==**問題点**==
-生成した弾が **自機と同じy座標にない！**
-
-----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
-
-<br/>
-
-==**問題点**==
-生成した弾が **自機と同じy座標にない！**
-
-<br/>
-
-==**解決策**==
-`Instantiate()`関数の返り値を使う。
+==:thumbsup:**解決策**==
+==生成されたGameObject==のY座標を設定する
+:arrow_right:Instantiate関数の返り値を受け取る
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
-
-# `Instantiate()`
-
-- ゲームオブジェクトをゲーム上に生成
-
-- 返り値:
-  ==ゲーム上に生成されたゲームオブジェクト==
-
-----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
-
-<br/>
-
-:arrow_down: 弾を自機のy座標に生成
+<!-- template: invert -->
+###### 4. 敵の挙動を書く > 敵のUpdate()を書く
+## 弾の生成
+:arrow_down: 弾をプレイヤーのy座標に生成
 ```CSharp
-// 弾の生成
+<弾の生成>
 GameObject clone = Instantiate (bullet);
 
-// 生成された弾(clone)の位置を変更。
+<生成された弾の位置を変更>
 clone.transform.position = new Vector2 (4f, targetPosY);
 ```
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-
+###### 4. 敵の挙動を書く > 敵のUpdate()を書く
 
 :arrow_down: ここまでの`Update()`の中身
 
 ```CShape
 void Update () {
-    // 自機の取得
+    // プレイヤーの取得
     GameObject target = GameObject.Find("me");
 
-    // 自機のy座標を抜き出す
+    // プレイヤーのy座標を抜き出す
     float targetPosY = target.transform.position.y;
-    
+
     // 弾の生成
     GameObject clone = Instantiate (bullet);
 
@@ -626,52 +444,39 @@ void Update () {
         = new Vector2 (4f, targetPosY);
 }
 ```
+一旦実行してみる
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
+<!-- template: default -->
+###### 4. 敵の挙動を書く > 敵のUpdate()を書く
+## 弾の生成
 
-- 一旦実行してみる
+==:thumbsdown:**問題点**==
+弾の生成間隔が短い
 
-----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
-
-- 一旦実行してみる
-
-- 弾の生成間隔が短い
+==:thumbsup:**解決策**==
+弾の生成間隔を設ける
+:arrow_right:1個/秒つくる処理に変更
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
-## > 弾の生成
-
-- 一旦実行してみる
-
-- 弾の生成間隔が短い
-
-## :star: ==弾の生成間隔を設ける==
-１個 / 秒つくる処理に変更
-
-----
-
+<!-- template: invert -->
+###### 4. 敵の挙動を書く > 弾の生成間隔を設ける
 
 ```CSharp
 float time;
 
 void Start () {
-    // 弾読み込み処理
-
-    // 変数の初期化
+    <ここに弾読み込み処理>
+    <変数の初期化>
     time = 0;
 }
 
 void Update () {
     time += Time.deltaTime;
-    
+
     if (time >= 1f) {
-        // ここに弾の生成処理(wikiには書いてある)。
-        
-        // time変数の値を0に戻す。
+        <ここに弾の生成処理>
+        <time変数の値を0に戻す>
         time = 0;
     }
 }
@@ -692,17 +497,16 @@ void Update () {
 ----
 <!-- template: default -->
 
-##### 今回新しく学んだこと
+## まとめ
 
-- シューティングゲームの弾のように、ゲームの最初からはなく、大量生産されるものには`Prefab`を使う  
-  :arrow_right:`Prefab`の作り方
+- ゲームの最初からはなかったり大量生産されるものには**Prefab**を使う
 
-- `Prefab`を読み込んで、ゲーム上に生成する
-  :arrow_right:`Resources.Load`関数、`Instantiate`関数
-	
-- `Hierarchy`上にあるゲームオブジェクトの取得
-  :arrow_right:`GameObject.Find`関数
-	
+- **Prefab**を読み込んで、ゲーム上に生成する
+  :arrow_right:`Resources.Load()`、`Instantiate()`
+
+- Hierarchy上にあるゲームオブジェクトの取得
+  :arrow_right:`GameObject.Find()`
+
 - 他のゲームオブジェクトの位置情報の取得
   :arrow_right:`(ゲームオブジェクト).transform.position`
 
@@ -715,4 +519,3 @@ void Update () {
 
 ###### 分からないことがあったら周囲の先輩に聞いてください
 ###### wikiのほうに自由課題があるのでそちらもどうぞ
-
