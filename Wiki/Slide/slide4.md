@@ -12,7 +12,7 @@
 
 ----
 <!-- page_number: true -->
-<!-- template: invert -->
+<!-- template: default -->
 # 目的
 
 :arrow_right_hook:**==前回==**
@@ -56,7 +56,7 @@
 ##### ==4. 敵の挙動を書く==
 
 ----
-<!-- template: invert -->
+<!-- template: default -->
 
 ### 1. 弾のひな形の用意
 
@@ -73,8 +73,6 @@
 
 1. **ひな形** を作る
 1. ゲーム中にひな形の **クローン** を作る
-
-<br/>
 
 ひな形 : **Prefab**
 :arrow_right:弾のPrefabをつくる
@@ -123,11 +121,11 @@
 
 ----
 ###### 1. 弾のひな形の用意
-## Prefabとは:grey_question:
+## Prefabとは:question:
 PrefabとGameObjectは違う
 
 **Prefab**
-:arrow_right:GameObject+設定済みのComponent群
+　:arrow_right:GameObject+設定済みのComponent群
 
 この場合
 :arrow_right:弾のPrefabには既に画像が設定されている
@@ -144,12 +142,8 @@ PrefabとGameObjectは違う
 
 
 ----
-<!-- template: invert -->
+<!-- template: default -->
 ## 2. 弾の挙動を書く
-
-<br/>
-
-<br/>
 
 
 ### ==仕様==
@@ -166,6 +160,7 @@ PrefabとGameObjectは違う
 3. 作られたファイルをダブルクリック
 ----
 
+<!-- template: invert -->
 ###### 2. 弾の挙動を書く
 :arrow_down:弾のスクリプト(解説します)
 
@@ -187,6 +182,8 @@ public class bullet : MonoBehaviour {
 ```
 
 ----
+<!-- template: invert -->
+
 ######  Time.deltaTimeとは
 
 :thumbsdown:**問題点** : 等速で移動しない
@@ -195,11 +192,9 @@ posX += -5f;
 ```
 1フレームの時間間隔は一定ではないため
 
-<br/>
-
 :thumbsup:**解決策** : 速度に変化時間をかける
 
-1フレームあたりの変化時間 : `Time.deltatime`
+1フレームあたりの変化時間 : `Time.deltaTime`
 
 ```CSharp
 posX += -5f * Time.deltaTime;
@@ -254,7 +249,7 @@ public class bullet : MonoBehaviour {
 # 4. 敵の挙動を書く
 
 ----
-<!-- template: invert -->
+<!-- template: default -->
 
 ## 4. 敵の挙動を書く
 ==仕様==曰く、
@@ -279,17 +274,18 @@ public class bullet : MonoBehaviour {
 ----
 
 ###### 4. 敵の挙動を書く
-### 敵の`Start()`を書く
+### 敵の Start() を書く
 
-<br/>
 
-#### `Start()`でやること
+#### ==Start()でやること==
 
 **事前に用意しておいた弾** を読み込む
 :arrow_right: 弾のPrefabを読み込む
 
 
 ----
+<!-- template: invert -->
+
 ###### 4. 敵の挙動を書く > 敵のStart()を書く
 ### Prefabの読み込み
 
@@ -309,6 +305,8 @@ GameObject bullet = Resources.Load <GameObject>("bullet");
 :warning:これを`Start()`内に書いたらOKではない
 
 ----
+<!-- template: default -->
+
 ###### 4. 敵の挙動を書く > 敵のStart()を書く
 ### Prefabの読み込み
 
@@ -319,6 +317,7 @@ GameObject bullet = Resources.Load <GameObject>("bullet");
 </div>
 
 ----
+<!-- template: invert -->
 
 ###### 4. 敵の挙動を書く > 敵のStart()を書く
 ### Prefabの読み込み
@@ -360,6 +359,7 @@ public class enemy : MonoBehaviour {
 }
 ```
 ----
+<!-- template: default -->
 ###### 4. 敵の挙動を書く
 ## 敵のUpdate()を書く
 
@@ -373,6 +373,7 @@ public class enemy : MonoBehaviour {
 1. その情報をもとにゲーム上に弾を生成
 
 ----
+<!-- template: invert -->
 ###### 4. 敵の挙動を書く > 敵のUpdate()を書く
 ### プレイヤーの取得
 
@@ -416,21 +417,18 @@ float targetPosY = target.transform.position.y;
 Instantiate (  生成したいGameObject型の変数  );
 ```
 
-<br/>
-
 :arrow_down:先ほど読み込んだ`bullet`をゲーム上に生成する
 ```CSharp
 Instantiate (bullet);
 ```
 
 ----
+<!-- template: default -->
 ###### 4. 敵の挙動を書く > 敵のUpdate()を書く
 ## 弾の生成
 
 ==:thumbsdown:**問題点**==
 生成した弾が **プレイヤーと同じy座標にない**
-
-<br/>
 
 ==:thumbsup:**解決策**==
 ==生成されたGameObject==のY座標を設定する
@@ -473,13 +471,12 @@ void Update () {
 一旦実行してみる
 
 ----
+<!-- template: default -->
 ###### 4. 敵の挙動を書く > 敵のUpdate()を書く
 ## 弾の生成
 
 ==:thumbsdown:**問題点**==
 弾の生成間隔が短い
-
-<br/>
 
 ==:thumbsup:**解決策**==
 弾の生成間隔を設ける
@@ -522,7 +519,7 @@ void Update () {
 
 
 ----
-<!-- template: invert -->
+<!-- template: default -->
 
 ## まとめ
 
