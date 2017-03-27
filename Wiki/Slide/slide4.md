@@ -12,12 +12,13 @@
 
 ----
 <!-- page_number: true -->
-<!-- template: default -->
+<!-- template: invert -->
 # 目的
 
 :arrow_right_hook:**==前回==**
 画像(プレイヤー)を矢印キーで移動させる
 
+<br/>
 
 :arrow_right:**==今回==**
 弾を撃ってくる敵をつくろう
@@ -39,23 +40,23 @@
 
 ----
 
-## 実装の流れ(目次)
+## 実装の流れ
 
 1. **弾のひな形** の用意
 1. **弾の挙動(スクリプト)** を書く
-1. **敵** の用意
+1. **敵** の用意(第3回でやりました)
 1. **敵の挙動(スクリプト)** を書く
 
 ----
-<!-- template: invert -->
+<!-- template: gaia -->
 
-# ==1. 弾のひな形の用意==
-##### 2. 弾の挙動を書く
-##### 3. 敵の用意
-##### 4. 敵の挙動を書く
+# 1. 弾のひな形の用意
+##### ==2. 弾の挙動を書く==
+##### ==3. 敵の用意(第3回でやった)==
+##### ==4. 敵の挙動を書く==
 
 ----
-<!-- template: default -->
+<!-- template: invert -->
 
 ### 1. 弾のひな形の用意
 
@@ -73,6 +74,7 @@
 1. **ひな形** を作る
 1. ゲーム中にひな形の **クローン** を作る
 
+<br/>
 
 ひな形 : **Prefab**
 :arrow_right:弾のPrefabをつくる
@@ -99,6 +101,8 @@
 1. Hierarchyにある弾を`Resources`にD&D
 1. Hierarchyにある弾選択&右クリック:arrow_right:`Delete`
 
+<br/>
+
 :warning: `Prefab`を置くフォルダの名前は`Resources`以外にしてはいけません
 
 
@@ -119,7 +123,7 @@
 
 ----
 ###### 1. 弾のひな形の用意
-## Prefabとは:question:
+## Prefabとは:grey_question:
 PrefabとGameObjectは違う
 
 **Prefab**
@@ -131,30 +135,36 @@ PrefabとGameObjectは違う
  　　最初から弾の画像が設定されている
 
 ----
-<!-- template: invert -->
+<!-- template: gaia -->
 
-##### 1. 弾のひな形の用意
-# ==2. 弾の挙動を書く==
-##### 3. 敵の用意
-##### 4. 敵の挙動を書く
+##### ==1. 弾のひな形の用意==
+# 2. 弾の挙動を書く
+##### ==3. 敵の用意(第3回でやった)==
+##### ==4. 敵の挙動を書く==
 
 
 ----
-<!-- template: default -->
+<!-- template: invert -->
 ## 2. 弾の挙動を書く
 
-**仕様**
+<br/>
+
+<br/>
+
+
+### ==仕様==
 - 横に進む
 - 弾は左側(x軸のマイナス方向)に等速で飛ぶ
 
+---
+
+## 2. 弾の挙動を書く
 まずはスクリプトファイルの作成(復習)
 
 1. Projectウィンドウで右クリック
 2. `Create > C# Script`
 3. 作られたファイルをダブルクリック
 ----
-
-<!-- template: invert -->
 
 ###### 2. 弾の挙動を書く
 :arrow_down:弾のスクリプト(解説します)
@@ -185,6 +195,8 @@ posX += -5f;
 ```
 1フレームの時間間隔は一定ではないため
 
+<br/>
+
 :thumbsup:**解決策** : 速度に変化時間をかける
 
 1フレームあたりの変化時間 : `Time.deltatime`
@@ -213,7 +225,7 @@ public class bullet : MonoBehaviour {
 ----
 <!-- template: default -->
 
-## :boom:**注意**  
+## :boom:**注意**
 
 クラス名とファイル名は常に同一でなければならない
 ![](../Images/4/FileNameIsClassName.png)  
@@ -226,23 +238,23 @@ public class bullet : MonoBehaviour {
 
 
 ----
-<!-- template: invert -->
+<!-- template: gaia -->
 
-##### 1. 弾のひな形の用意
-##### 2. 弾の挙動を書く
-# ==3. 敵の用意==(第3回)
-##### 4. 敵の挙動を書く
+##### ==1. 弾のひな形の用意==
+##### ==2. 弾の挙動を書く==
+# 3. 敵の用意(第3回でやった)
+##### ==4. 敵の挙動を書く==
+
+----
+<!-- template: gaia -->
+
+##### ==1. 弾のひな形の用意==
+##### ==2. 弾の挙動を書く==
+##### ==3. 敵の用意(第3回でやった)==
+# 4. 敵の挙動を書く
 
 ----
 <!-- template: invert -->
-
-##### 1. 弾のひな形の用意
-##### 2. 弾の挙動を書く
-##### 3. 敵の用意
-# ==4. 敵の挙動を書く==
-
-----
-<!-- template: default -->
 
 ## 4. 敵の挙動を書く
 ==仕様==曰く、
@@ -269,19 +281,24 @@ public class bullet : MonoBehaviour {
 ###### 4. 敵の挙動を書く
 ### 敵の`Start()`を書く
 
+<br/>
+
+#### `Start()`でやること
+
 **事前に用意しておいた弾** を読み込む
 :arrow_right: 弾のPrefabを読み込む
 
+
+----
+###### 4. 敵の挙動を書く > 敵のStart()を書く
 ### Prefabの読み込み
 
 :arrow_down: Prefabを==GameObjectとして==読み込む
 ```CSharp
 Resources.Load <GameObject>(  リソースフォルダ内ので名前  );
 ```
-----
-###### 4. 敵の挙動を書く > 敵のStart()を書く
-### Prefabの読み込み
 
+<br/>
 
 :arrow_down: 弾の`Prefab`を読み込む
 
@@ -292,11 +309,21 @@ GameObject bullet = Resources.Load <GameObject>("bullet");
 :warning:これを`Start()`内に書いたらOKではない
 
 ----
-<!-- template: invert -->
 ###### 4. 敵の挙動を書く > 敵のStart()を書く
 ### Prefabの読み込み
 
-:arrow_down: ダメ
+:warning:Start()内で変数宣言をするとUpdate()で使えない
+
+<div class="center">
+<img style="width:100%" src="../Images/4/VariableLife.png">
+</div>
+
+----
+
+###### 4. 敵の挙動を書く > 敵のStart()を書く
+### Prefabの読み込み
+
+:arrow_down: さっきの(ダメ)
 ```CSharp
 void Start(){
     GameObject bullet;
@@ -310,19 +337,8 @@ void Start(){
     bullet = Resources.Load <GameObject>("bullet");
 }
 ```
-----
-<!-- template: default -->
-###### 4. 敵の挙動を書く > 敵のStart()を書く
-### Prefabの読み込み
-
-:warning:Start()内で変数宣言をするとUpdate()で使えない
-
-<div class="center">
-<img style="width:100%" src="../Images/4/VariableLife.png">
-</div>
 
 ----
-<!-- template: invert -->
 ###### 4. 敵の挙動を書く > 敵のStart()を書く
 
 ```CSharp
@@ -344,11 +360,12 @@ public class enemy : MonoBehaviour {
 }
 ```
 ----
-<!-- template: default -->
 ###### 4. 敵の挙動を書く
 ## 敵のUpdate()を書く
 
-**==流れ==**
+<br/>
+
+### ==流れ==
 
 1. プレイヤーの現在位置を取得
 	1. ゲーム上に存在するプレイヤーを取得する
@@ -359,14 +376,18 @@ public class enemy : MonoBehaviour {
 ###### 4. 敵の挙動を書く > 敵のUpdate()を書く
 ### プレイヤーの取得
 
-ゲーム上に存在するゲームオブジェクトの取得
+:arrow_down:ゲーム上に存在するゲームオブジェクトの取得
 ```CSharp
 GameObject.Find(  ここにHierarchy上での名前を書く  );
 ```
+
+<br/>
+
 :arrow_down:プレイヤーの取得 (Hierarchy上の名前は`me`)
 ```CSharp
 GameObject target = GameObject.Find("me");
-````
+```
+
 `target`はプレイヤーを指す。
 プレイヤーの取得完了！
 
@@ -395,17 +416,21 @@ float targetPosY = target.transform.position.y;
 Instantiate (  生成したいGameObject型の変数  );
 ```
 
+<br/>
+
 :arrow_down:先ほど読み込んだ`bullet`をゲーム上に生成する
 ```CSharp
 Instantiate (bullet);
 ```
 
 ----
-###### 4. 敵の挙動を書く > 敵の`Update()`を書く
+###### 4. 敵の挙動を書く > 敵のUpdate()を書く
 ## 弾の生成
 
 ==:thumbsdown:**問題点**==
 生成した弾が **プレイヤーと同じy座標にない**
+
+<br/>
 
 ==:thumbsup:**解決策**==
 ==生成されたGameObject==のY座標を設定する
@@ -430,33 +455,35 @@ clone.transform.position = new Vector2 (4f, targetPosY);
 
 ```CShape
 void Update () {
-    // プレイヤーの取得
+    <プレイヤーの取得>
     GameObject target = GameObject.Find("me");
 
-    // プレイヤーのy座標を抜き出す
+    <プレイヤーのy座標を抜き出す>
     float targetPosY = target.transform.position.y;
 
-    // 弾の生成
-    GameObject clone = Instantiate (bullet);
+    <弾の生成>
+    GameObject clone = Instantiate(bullet);
 
-    // 生成された弾(clone)の位置を変更。
+    <生成された弾(clone)の位置を変更>
     clone.transform.position
         = new Vector2 (4f, targetPosY);
 }
 ```
+
 一旦実行してみる
 
 ----
-<!-- template: default -->
 ###### 4. 敵の挙動を書く > 敵のUpdate()を書く
 ## 弾の生成
 
 ==:thumbsdown:**問題点**==
 弾の生成間隔が短い
 
+<br/>
+
 ==:thumbsup:**解決策**==
 弾の生成間隔を設ける
-:arrow_right:1個/秒つくる処理に変更
+:arrow_right: **1個/秒** つくる処理に変更
 
 ----
 <!-- template: invert -->
@@ -484,18 +511,18 @@ void Update () {
 
 ----
 
-<!-- template: invert -->
+<!-- template: gaia -->
 
-##### 1. 弾のひな形の用意
-##### 2. 弾の挙動を書く
-##### 3. 敵の用意
-##### 4. 敵の挙動を書く
+##### ==1. 弾のひな形の用意==
+##### ==2. 弾の挙動を書く==
+##### ==3. 敵の用意==
+##### ==4. 敵の挙動を書く==
 
-# ==完成!==
+# 完成!
 
 
 ----
-<!-- template: default -->
+<!-- template: invert -->
 
 ## まとめ
 
