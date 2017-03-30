@@ -82,7 +82,7 @@
 ###### 1. 弾のひな形の用意
 ### 弾の`Prefab`の作り方(1)
 
-1. 弾に使う画像を用意
+1. 弾に使う画像を資料ページから用意
 1. 弾の画像をInspectorからFilterModeを`Point`に
 1. 画像をProjectからSceneにD&D
 1. Hierarchyで選択
@@ -109,8 +109,9 @@
 ### ==**TIPS**==  
 
 :white_check_mark: 何か誤操作してもだいたい`Ctrl+Z`で戻せる
+　:warning:Projectウィンドウの操作は戻せない
 
-:white_check_mark: 名前つけるの間違えたらF2キーで再設定できる
+:white_check_mark: ファイルやオブジェクトの名前はF2キーで再設定できる
 
 ----
 ### 1. 弾のひな形の用意
@@ -218,21 +219,6 @@ public class bullet : MonoBehaviour {
 弾のスクリプトをProjectのPrefabにくっつける
 
 ----
-<!-- template: default -->
-
-## :boom:**注意**
-
-クラス名とファイル名は常に同一でなければならない
-![](../Images/4/FileNameIsClassName.png)  
-
-- プログラムをGameObjectにくっつけられない
-- プログラムコンポーネントに:warning:マークが出ている
-
-![](../Images/4/ClassCantLoad.png)  
-
-
-
-----
 <!-- template: gaia -->
 
 ##### ==1. 弾のひな形の用意==
@@ -284,7 +270,6 @@ public class bullet : MonoBehaviour {
 
 
 ----
-<!-- template: invert -->
 
 ###### 4. 敵の挙動を書く > 敵のStart()を書く
 ### Prefabの読み込み
