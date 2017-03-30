@@ -42,6 +42,27 @@
 
 ----
 
+## 今日使うプログラムのコピペ
+
+1. Projectウィンドウで`右クリック > Create > C# Script`
+1. 作成したスクリプトファイルをダブルクリック 
+1. 資料ページ一番下のプログラムをコピーする
+1. MonoDevelop(エディタ)上にペーストし**保存する**
+
+----
+
+## :boom:**注意**
+
+クラス名とファイル名は常に同一でなければならない
+![](../Images/4/FileNameIsClassName.png)  
+
+- プログラムをGameObjectにくっつけられない
+- プログラムコンポーネントに:warning:マークが出ている
+
+![](../Images/4/ClassCantLoad.png)  
+
+----
+
 # 1
 # 現在位置の取得
 
@@ -129,9 +150,11 @@
 2. **小数 :** `float`  
 小数を扱う場合、
 `1.5f`というように、末尾に`f`を付ける
+整数も代入でき、その場合数字のみでよい
 
 ```C
 	float b = 1.5f;
+	float c = 3;
 ```
 ----
 ### データ型いろいろ
@@ -142,15 +165,15 @@
 `"abc"`や`"123"`などは文字列
 
 ```CS
-	string c = "Hello";
-	string d = "123";
-	int    e = 123;
+	string d = "Hello";
+	string e = "123";
+	int    f = 123;
 ```
 
 `123`と`"123"`は違うデータ型であることに注意
 
 ----
-<!-- template: default -->
+
 ### データ型いろいろ
 
 4. **真偽値 :** `bool` 
@@ -159,13 +182,14 @@
 「正しい」は`true`、「正しくない」は`false`と表す
 
 ```CS
-	bool   f = true;
-	string g = "true";
+	bool   g = true;
+	string h = "true";
 ```
 
 `true`と`"true"`は違うデータ型であることに注意
 
 ----
+<!-- template: default -->
 ### データ型いろいろ
 
 まとめ
@@ -191,7 +215,7 @@
 - 変数名の先頭の1文字は 数字の使用 **==不可==**  
     :x:`int 1_player = 100;`
 
-- 変数名に **.** や **:** は使用 **==不可==**  
+- 変数名に **.** や **:** などの記号は使用 **==不可==**  
     :x:`int player.1 = 100;`
 
 ----
@@ -207,7 +231,7 @@
     <掛け算>
     int c = 2 * 5;
     <割り算>
-    int d= 6 / 2;
+    int d = 6 / 2;
     int e = 5 / 2; (小数点以下は切り捨て)
     <剰余>
     int f = 5 % 2; 
@@ -233,7 +257,10 @@
 自分自身に対して計算する場合は省略可能
 ```CSharp
     int a = 1;
-    a += 2;      (3が代入される)
+    a += 2;      (1+2で 3が代入される)
+    a -= 1;      (3-1で 2が代入される)
+    a *= 3;      (2*3で 6が代入される)
+    a /= 6;      (6/6で 1が代入される)
 ```
 
 ----
@@ -333,12 +360,13 @@ public class me : MonoBehaviour {
 
 |条件式|意味|
 |:--:|:--:|
+|!A    |Aではない(否定)|
 |A == B|AとBが等しい|
 |A != B|AとBが等しくない|
 |A >= B|AはB以上|
 |A <= B|AはB以下|
-|A > B|AはBより大きい|
-|A < B|AはBより小さい|
+|A > B |AはBより大きい|
+|A < B |AはBより小さい|
 
 ----
 
@@ -382,32 +410,6 @@ Inputクラスの中に`GetKey()`という関数がある
 キーが押されているときの`Input.GetKey()`
 :arrow_right:`Input.GetKey()`と`true`は同値
 
-----
-<!-- template: invert -->
-
-```CSharp
-public class me : MonoBehaviour {
-	float posX, posY;
-	void Update () {
-	    <現在位置の取得>
-	    posX = transform.position.x;
-	    posY = transform.position.y;
-        
-	    <キー入力>
-	    if (Input.GetKey (KeyCode.UpArrow))
-		posY += 0.1f;
-            if (Input.GetKey (KeyCode.DownArrow))
-		posY -= 0.1f;
-	    if (Input.GetKey (KeyCode.RightArrow))
-		posX += 0.1f;
-	    if (Input.GetKey (KeyCode.LeftArrow))
-		posX -= 0.1f;
-        
-	    <位置の適用>
-     	    transform.position = new Vector2 (posX, posY);
-	}
-}
-```
 
 ----
 <!-- template: default -->
@@ -431,7 +433,7 @@ public class me : MonoBehaviour {
 	posX = transform.position.x;
         posY = transform.position.y;
         <キー入力>
-	if (Input.GetKey (KeyCode.UpArrow) == true) 
+	if (Input.GetKey (KeyCode.UpArrow) == true) {
 		posY -= 0.1f;
 	}
 }
@@ -442,14 +444,20 @@ public class me : MonoBehaviour {
 
 ifは条件式が、`true`か`false`かで条件分岐する
 
-つまり
+つまり以下のように省略できる
 
 ```CSharp
     if (Input.GetKey (KeyCode.UpArrow)) {
         posY -= 0.1f;
     }
 ```
-と省略できる
+さらに、if文の中のプログラムは1行なので
+
+```CSharp
+    if (Input.GetKey (KeyCode.UpArrow))
+        posY -= 0.1f;
+```
+`{}`も省略できる
 
 ----
 <!-- template: invert -->
@@ -498,18 +506,6 @@ public class me : MonoBehaviour {
 ----
 ### 適用の仕方
 
-取り出すときに使った`transform.position`は、
-実は`Vector2`というクラス
-
-`transform.position.x`は、Vector2クラスが持つ`x`情報
-
-----
-### 適用の仕方
-
-
-:warning:クラスに情報を代入する:arrow_right:クラスごと代入する
-
-つまり、
 ```Csharp
     transform.position.x = posX;
 ```
@@ -519,20 +515,20 @@ public class me : MonoBehaviour {
     transform.position = new Vector2 (posX, posY);
 ```
 
-このようにX座標とY座標を一度に与える必要がある
+このように、`new`を用いてX座標とY座標を==Vector2型として==一度に与える必要がある
 
 ----
 <!-- template: invert -->
-全文
 
 ```CSharp
-using UnityEngine;
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
+	    <現在位置の取得>
 	    posX = transform.position.x;
-            posY = transform.position.y;
-            //キー入力
+	    posY = transform.position.y;
+        
+	    <キー入力>
 	    if (Input.GetKey (KeyCode.UpArrow))
 		posY += 0.1f;
             if (Input.GetKey (KeyCode.DownArrow))
@@ -541,6 +537,8 @@ public class me : MonoBehaviour {
 		posX += 0.1f;
 	    if (Input.GetKey (KeyCode.LeftArrow))
 		posX -= 0.1f;
+        
+	    <位置の適用>
      	    transform.position = new Vector2 (posX, posY);
 	}
 }
@@ -563,7 +561,7 @@ public class me : MonoBehaviour {
 :arrow_right:`transform.position`に変数の値を==代入==
 
 ----
-## 第4回の準備
+## 第4回の準備 [1/2]
 敵を準備する
 
 1. えっくちゅをもう一体ProjectウィンドウからSceneビューにD&D
@@ -573,7 +571,7 @@ public class me : MonoBehaviour {
 1. それっぽくなる
 
 ----
-## 第4回の準備
+## 第4回の準備 [2/2]
 
 <div class="center">
 <img src="../Images/4/ReadyImage.png">
