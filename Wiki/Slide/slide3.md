@@ -42,6 +42,27 @@
 
 ----
 
+## 今日使うプログラムのコピペ
+
+1. Projectウィンドウで`右クリック > Create > C# Script`
+1. 作成したスクリプトファイルをダブルクリック 
+1. 資料ページ一番下のプログラムをコピーする
+1. MonoDevelop(エディタ)上にペーストし**保存する**
+
+----
+
+## :boom:**注意**
+
+クラス名とファイル名は常に同一でなければならない
+![](../Images/4/FileNameIsClassName.png)  
+
+- プログラムをGameObjectにくっつけられない
+- プログラムコンポーネントに:warning:マークが出ている
+
+![](../Images/4/ClassCantLoad.png)  
+
+----
+
 # 1
 # 現在位置の取得
 
@@ -81,15 +102,16 @@
 
 ----
 ### 変数の使い方
+<!-- template: invert -->
 
 用意した変数に、実際に情報を入れる
 ```CSharp
     int number;
     number = 2;
 ```
-これを変数への==代入==
+これを変数への**代入**
 
-:boom:代入の操作は何度でもでき、==上書き==される
+:boom:代入の操作は何度でもでき、**上書き**される
 
 ```CSharp
     int number;
@@ -108,12 +130,14 @@
 ```
 
 ----
+<!-- template: default -->
 ### 変数の使い方
 
 `int`以外に、変数の型には以下のようなものがある
 入れたい情報に応じて適宜選んであげる必要がある
 
 ----
+<!-- template: invert -->
 ### データ型いろいろ
 
 1. **整数 :** `int`  
@@ -126,9 +150,11 @@
 2. **小数 :** `float`  
 小数を扱う場合、
 `1.5f`というように、末尾に`f`を付ける
+整数も代入でき、その場合数字のみでよい
 
 ```C
 	float b = 1.5f;
+	float c = 3;
 ```
 ----
 ### データ型いろいろ
@@ -139,14 +165,15 @@
 `"abc"`や`"123"`などは文字列
 
 ```CS
-	string c = "Hello";
-	string d = "123";
-	int    e = 123;
+	string d = "Hello";
+	string e = "123";
+	int    f = 123;
 ```
 
 `123`と`"123"`は違うデータ型であることに注意
 
 ----
+
 ### データ型いろいろ
 
 4. **真偽値 :** `bool` 
@@ -155,13 +182,14 @@
 「正しい」は`true`、「正しくない」は`false`と表す
 
 ```CS
-	bool   f = true;
-	string g = "true";
+	bool   g = true;
+	string h = "true";
 ```
 
 `true`と`"true"`は違うデータ型であることに注意
 
 ----
+<!-- template: default -->
 ### データ型いろいろ
 
 まとめ
@@ -187,11 +215,11 @@
 - 変数名の先頭の1文字は 数字の使用 **==不可==**  
     :x:`int 1_player = 100;`
 
-- 変数名に **.** や **:** は使用 **==不可==**  
+- 変数名に **.** や **:** などの記号は使用 **==不可==**  
     :x:`int player.1 = 100;`
 
 ----
-
+<!-- template: invert -->
 ### 変数と式
 変数には計算結果を入れることが出来る
 
@@ -199,11 +227,11 @@
     <足し算>
     int a = 1 + 2;
     <引き算>
-    int b
+    int b = 3 - 1;
     <掛け算>
     int c = 2 * 5;
     <割り算>
-    int d= 6 / 2;
+    int d = 6 / 2;
     int e = 5 / 2; (小数点以下は切り捨て)
     <剰余>
     int f = 5 % 2; 
@@ -229,11 +257,14 @@
 自分自身に対して計算する場合は省略可能
 ```CSharp
     int a = 1;
-    a += 2;      (3が代入される)
+    a += 2;      (1+2で 3が代入される)
+    a -= 1;      (3-1で 2が代入される)
+    a *= 3;      (2*3で 6が代入される)
+    a /= 6;      (6/6で 1が代入される)
 ```
 
 ----
-
+<!-- template: default -->
 ## 現在位置の取得
 
 座標はフレーム毎に取得する
@@ -248,25 +279,34 @@
 
 
 ----
-
-### 現在位置の取得
+<!-- template: invert -->
 
 ```CSharp
-using UnityEngine;
-
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
-        //自身の座標を取り出す
+	    <現在位置の取得>
 	    posX = transform.position.x;
-            posY = transform.position.y;
+	    posY = transform.position.y;
+        
+	    <キー入力>
+	    if (Input.GetKey (KeyCode.UpArrow))
+		posY += 0.1f;
+            if (Input.GetKey (KeyCode.DownArrow))
+		posY -= 0.1f;
+	    if (Input.GetKey (KeyCode.RightArrow))
+		posX += 0.1f;
+	    if (Input.GetKey (KeyCode.LeftArrow))
+		posX -= 0.1f;
+        
+	    <位置の適用>
+     	    transform.position = new Vector2 (posX, posY);
 	}
 }
 ```
-これで、変数`posX`と`posY`には常に最新の座標情報が代入される
 
 ----
-
+<!-- template: default -->
 # 2
 # キー入力の受け取り
 
@@ -295,6 +335,7 @@ public class me : MonoBehaviour {
 - プログラムが1行だけであれば、`{}`も省略可
 
 ----
+<!-- template: invert -->
 ### 条件分岐
 
 ```CSharp
@@ -312,18 +353,20 @@ public class me : MonoBehaviour {
 - etc
 
 ----
+<!-- template: default -->
 ### 条件式
 
 主に以下のような種類がある
 
 |条件式|意味|
 |:--:|:--:|
+|!A    |Aではない(否定)|
 |A == B|AとBが等しい|
 |A != B|AとBが等しくない|
 |A >= B|AはB以上|
 |A <= B|AはB以下|
-|A > B|AはBより大きい|
-|A < B|AはBより小さい|
+|A > B |AはBより大きい|
+|A < B |AはBより小さい|
 
 ----
 
@@ -331,11 +374,11 @@ public class me : MonoBehaviour {
 キー入力されているかどうかチェックする
 :arrow_right:Inputクラス
 
-==**クラス**==:grey_question:
+==**クラス**==:question:
 機能がつまった集合体のようなもの
 
 
-==**Inputクラス**==:grey_question:
+==**Inputクラス**==:question:
 - キー入力検出
 - ゲームコントローラーの入力検出
 - etc
@@ -367,13 +410,15 @@ Inputクラスの中に`GetKey()`という関数がある
 キーが押されているときの`Input.GetKey()`
 :arrow_right:`Input.GetKey()`と`true`は同値
 
+
 ----
+<!-- template: default -->
 
 # 3
 # 位置の変更
 
 ----
-
+<!-- template: invert -->
 ## キー入力されていたら
 
 `Input.GetKey()`が`true`になったとき、Y座標を減らす
@@ -384,11 +429,11 @@ using UnityEngine;
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
-        //自身の座標を取り出す
+        <自身の座標を取り出す>
 	posX = transform.position.x;
         posY = transform.position.y;
-        //キー入力
-	if (Input.GetKey (KeyCode.UpArrow) == true) 
+        <キー入力>
+	if (Input.GetKey (KeyCode.UpArrow) == true) {
 		posY -= 0.1f;
 	}
 }
@@ -399,40 +444,50 @@ public class me : MonoBehaviour {
 
 ifは条件式が、`true`か`false`かで条件分岐する
 
-つまり
+つまり以下のように省略できる
 
 ```CSharp
     if (Input.GetKey (KeyCode.UpArrow)) {
         posY -= 0.1f;
     }
 ```
-と省略できる
-
-----
-### キー入力されていたら
+さらに、if文の中のプログラムは1行なので
 
 ```CSharp
-using UnityEngine;
+    if (Input.GetKey (KeyCode.UpArrow))
+        posY -= 0.1f;
+```
+`{}`も省略できる
+
+----
+<!-- template: invert -->
+
+```CSharp
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
-    	    //自身の座標を取り出す
+	    <現在位置の取得>
 	    posX = transform.position.x;
-    	    posY = transform.position.y;
-    	    //キー入力
+	    posY = transform.position.y;
+        
+	    <キー入力>
 	    if (Input.GetKey (KeyCode.UpArrow))
-	  	posY += 0.1f;
-	    if (Input.GetKey (KeyCode.DownArrow))
+		posY += 0.1f;
+            if (Input.GetKey (KeyCode.DownArrow))
 		posY -= 0.1f;
-    	    if (Input.GetKey (KeyCode.RightArrow))
+	    if (Input.GetKey (KeyCode.RightArrow))
 		posX += 0.1f;
 	    if (Input.GetKey (KeyCode.LeftArrow))
 		posX -= 0.1f;
+        
+	    <位置の適用>
+     	    transform.position = new Vector2 (posX, posY);
 	}
 }
 ```
-----
 
+----
+<!-- template: default -->
 # 4
 # 変更した位置の適用
 
@@ -451,18 +506,6 @@ public class me : MonoBehaviour {
 ----
 ### 適用の仕方
 
-取り出すときに使った`transform.position`は、
-実は`Vector2`というクラス
-
-`transform.position.x`は、Vector2クラスが持つ`x`情報
-
-----
-### 適用の仕方
-
-
-:warning:クラスに情報を代入する:arrow_right:クラスごと代入する
-
-つまり、
 ```Csharp
     transform.position.x = posX;
 ```
@@ -472,19 +515,20 @@ public class me : MonoBehaviour {
     transform.position = new Vector2 (posX, posY);
 ```
 
-このようにX座標とY座標を一度に与える必要がある
+このように、`new`を用いてX座標とY座標を==Vector2型として==一度に与える必要がある
 
 ----
-全文
+<!-- template: invert -->
 
 ```CSharp
-using UnityEngine;
 public class me : MonoBehaviour {
 	float posX, posY;
 	void Update () {
+	    <現在位置の取得>
 	    posX = transform.position.x;
-            posY = transform.position.y;
-            //キー入力
+	    posY = transform.position.y;
+        
+	    <キー入力>
 	    if (Input.GetKey (KeyCode.UpArrow))
 		posY += 0.1f;
             if (Input.GetKey (KeyCode.DownArrow))
@@ -493,6 +537,8 @@ public class me : MonoBehaviour {
 		posX += 0.1f;
 	    if (Input.GetKey (KeyCode.LeftArrow))
 		posX -= 0.1f;
+        
+	    <位置の適用>
      	    transform.position = new Vector2 (posX, posY);
 	}
 }
@@ -513,6 +559,23 @@ public class me : MonoBehaviour {
 
 - 位置の適用
 :arrow_right:`transform.position`に変数の値を==代入==
+
+----
+## 第4回の準備 [1/2]
+敵を準備する
+
+1. えっくちゅをもう一体ProjectウィンドウからSceneビューにD&D
+1. Hierarchyで右クリックし、`Rename`で名前を分かり易いものに変える
+1. `SpriteRenderer`コンポーネントの`Color`プロパティを赤色に弄る
+1. `Transform`コンポーネントの`Scale`をいじり、大きくする
+1. それっぽくなる
+
+----
+## 第4回の準備 [2/2]
+
+<div class="center">
+<img src="../Images/4/ReadyImage.png">
+</div>
 
 ----
 <!-- template: gaia -->
