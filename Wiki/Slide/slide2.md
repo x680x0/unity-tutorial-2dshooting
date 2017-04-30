@@ -13,14 +13,14 @@
 
 ----
 <!-- page_number: true -->
-<!-- template: invert-->
+<!-- template:-->
 
 # 1
 # UnityEditor
 
 ----
 
-<!-- template: -->
+
 ## Toolbar
 
 画面上部にあるボタン群
@@ -96,7 +96,7 @@
 
 ----
 
-## Sceneビュー
+###### Sceneビュー
 
 -Sceneビュー内には座標軸が存在する
 ![](../Images/2/unity10.png)
@@ -158,14 +158,14 @@
 
 ----
 
-<!-- template:invert -->
+
 # 2
 # Unityでプログラムを書く
 
 
 ----
 
-<!-- template: -->
+
 ## Unityでプログラムを書く
 
 ここまで
@@ -212,6 +212,7 @@ Projectウィンドウにあるのはあくまで素材候補
 ----
 ## Unityでプログラムを書く
 
+<!-- template:　invert-->
 ```CSharp
 using System.Collections;
 using System.Collections.Generic;
@@ -232,7 +233,13 @@ public class me : MonoBehaviour {
 プログラムというものは普通の文章と同じように、
 左上から1行ずつ、順番に読み取られていく
 
+
+
 ----
+
+
+<!-- template:　-->
+
 ## プログラムの書き方の注意事項
 
 - 全角文字を使わない
@@ -245,7 +252,26 @@ public class me : MonoBehaviour {
 プログラム内で`//`が書かれた場合、それ以降はプログラムの一部として扱われることの無いコメント文となる
 
 ----
+
+
+
+<!-- template:　-->
+
+## プログラムの書き方の注意事項
+
+- 自動補完
+
+　プログラムはすべて書く必要は無い
+ 自動補完を利用することで綴りのミスなどを減らす
+
+- インデント
+
+{}で囲まれた空間などが視覚的にわかりやすいようにプログラムは適度にインデントをする必要がある。
+
+----
 ### Start関数
+
+<!-- template:　invert-->
 
 ```CSharp
 	// Use this for initialization
@@ -290,8 +316,11 @@ Consoleウィンドウに出力するための==関数==というもの
 - `;`はひとつの動作が終了した、という合図  
 - プログラムの一動作ごとにその末尾に`;`を付ける
 
+
 ----
 ### Start関数
+
+<!-- template:-->
 
 Consoleウィンドウに正しく`start`の文字が表示
 
@@ -303,6 +332,9 @@ Consoleの左上、`Clear`をクリックしてConsoleウィンドウの中身�
 
 
 ----
+
+
+<!-- template:invert-->
 
 ### Update関数
 
@@ -320,17 +352,24 @@ Consoleの左上、`Clear`をクリックしてConsoleウィンドウの中身�
 
 ----
 
+<!-- template:-->
+
 ### フレームレート
 
  - ゲームの更新頻度のこと
 
 ゲーム内では常にキャラの画像更新や演算が行われているわけでは無い
 
-１フレームという単位であらゆる演算を行っている
+１フレームごとにあらゆる演算を行っている
 
 
 ----
+
+
+<!-- template:invert-->
+
 ### Update関数の動き
+
 
 次のように書き足してみよう
 
@@ -348,6 +387,9 @@ Consoleの左上、`Clear`をクリックしてConsoleウィンドウの中身�
 :arrow_right:毎フレーム`print("update");`を実行しているから
 
 ----
+
+<!-- template:-->
+
 ### Update関数の動き
 
 Consoleの一番上の文字が`start`になっている
